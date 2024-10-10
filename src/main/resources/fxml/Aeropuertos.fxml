@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alesandro.ejercicio15l.controller.AeropuertosController">
+   <children>
+      <MenuBar fx:id="menuBar" maxWidth="1.7976931348623157E308">
+         <menus>
+            <Menu mnemonicParsing="false" text="Aeropuertos">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#aniadirAeropuerto" text="Añadir…" />
+                  <MenuItem fx:id="menuEditarAeropuerto" mnemonicParsing="false" onAction="#editarAeropuerto" text="Editar…" />
+                  <MenuItem fx:id="menuBorrarAeropuerto" mnemonicParsing="false" onAction="#borrarAeropuerto" text="Borrar" />
+                  <MenuItem fx:id="menuInfoAeropuerto" mnemonicParsing="false" onAction="#infoAeropuerto" text="Mostrar información" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Aviones">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#aniadirAvion" text="Añadir…" />
+                  <MenuItem mnemonicParsing="false" onAction="#activarDesactivarAvion" text="Activar / desactivar" />
+                  <MenuItem mnemonicParsing="false" onAction="#borrarAvion" text="Borrar" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Ayuda" />
+         </menus>
+      </MenuBar>
+      <FlowPane alignment="CENTER" prefWidth="200.0">
+         <children>
+            <Label text="LISTADO DE AEROPUERTOS" textAlignment="CENTER">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+         <VBox.margin>
+            <Insets bottom="20.0" top="20.0" />
+         </VBox.margin>
+      </FlowPane>
+      <TilePane alignment="CENTER" maxWidth="1.7976931348623157E308" prefColumns="3" prefRows="1">
+         <children>
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308">
+               <children>
+                  <RadioButton fx:id="rbPublicos" mnemonicParsing="false" selected="true" text="Públicos">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="rbGroup" />
+                     </toggleGroup>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </RadioButton>
+                  <RadioButton fx:id="rbPrivados" mnemonicParsing="false" text="Privados" toggleGroup="$rbGroup">
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </RadioButton>
+               </children>
+            </HBox>
+            <HBox prefWidth="200.0" />
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308">
+               <children>
+                  <Label text="Nombre:">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+         </children>
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </TilePane>
+      <TableView fx:id="tabla">
+         <columns>
+            <TableColumn fx:id="colId" prefWidth="75.0" text="ID" />
+            <TableColumn fx:id="colNombre" prefWidth="100.0" text="Nombre" />
+            <TableColumn fx:id="colPais" prefWidth="75.0" text="País" />
+            <TableColumn fx:id="colCiudad" prefWidth="75.0" text="Ciudad" />
+            <TableColumn fx:id="colCalle" prefWidth="75.0" text="Calle" />
+            <TableColumn fx:id="colNumero" prefWidth="75.0" text="Número" />
+            <TableColumn fx:id="colAnio" prefWidth="75.0" text="Año" />
+            <TableColumn fx:id="colCapacidad" prefWidth="75.0" text="Capacidad" />
+            <TableColumn fx:id="colNSocios" prefWidth="75.0" text="Nº Socios" />
+         </columns>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </TableView>
+   </children>
+</VBox>

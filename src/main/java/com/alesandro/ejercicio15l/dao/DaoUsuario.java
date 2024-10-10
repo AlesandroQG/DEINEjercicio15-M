@@ -22,20 +22,19 @@ public class DaoUsuario {
         Usuario user = null;
         try {
             connection = new DBConnect();
-            String consulta = "SELECT usuario,password FROM usuarios";
+            String consulta = "SELECT usuario,password FROM usuarios WHERE usuario = ?";
             PreparedStatement pstmt = connection.getConnection().prepareStatement(consulta);
+            pstmt.setString(1, usuario);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 String nom_usuario = rs.getString("usuario");
                 String password = rs.getString("password");
-                if (!nom_usuario.isBlank()) {
-                    user = new Usuario(nom_usuario, password);
-                }
+                user = new Usuario(nom_usuario, password);
             }
             rs.close();
             connection.closeConnection();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
         return user;
     }
