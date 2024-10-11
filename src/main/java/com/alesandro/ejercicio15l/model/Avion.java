@@ -11,25 +11,25 @@ public class Avion {
     private int numero_asientos;
     private int velocidad_maxima;
     private boolean activado;
-    private int id_aeropuerto;
+    private Aeropuerto aeropuerto;
 
     /**
      * Constructor con parámetros del avión
      *
-     * @param id
-     * @param modelo
-     * @param numero_asientos
-     * @param velocidad_maxima
-     * @param activado
-     * @param id_aeropuerto
+     * @param id del avión
+     * @param modelo del avión
+     * @param numero_asientos del avión
+     * @param velocidad_maxima del avión
+     * @param activado del avión
+     * @param aeropuerto del avión
      */
-    public Avion(int id, String modelo, int numero_asientos, int velocidad_maxima, boolean activado, int id_aeropuerto) {
+    public Avion(int id, String modelo, int numero_asientos, int velocidad_maxima, boolean activado, Aeropuerto aeropuerto) {
         this.id = id;
         this.modelo = modelo;
         this.numero_asientos = numero_asientos;
         this.velocidad_maxima = velocidad_maxima;
         this.activado = activado;
-        this.id_aeropuerto = id_aeropuerto;
+        this.aeropuerto = aeropuerto;
     }
 
     /**
@@ -128,21 +128,21 @@ public class Avion {
     }
 
     /**
-     * Getter para el id del aeropuerto
+     * Getter para el aeropuerto del avión
      *
-     * @return id del aeropuerto
+     * @return aeropuerto del avión
      */
-    public int getId_aeropuerto() {
-        return id_aeropuerto;
+    public Aeropuerto getAeropuerto() {
+        return aeropuerto;
     }
 
     /**
-     * Setter para el id del aeropuerto
+     * Setter para el aeropuerto del avión
      *
-     * @param id_aeropuerto nuevo id del aeropuerto
+     * @param aeropuerto nuevo aeropuerto del avión
      */
-    public void setId_aeropuerto(int id_aeropuerto) {
-        this.id_aeropuerto = id_aeropuerto;
+    public void setAeropuerto(Aeropuerto aeropuerto) {
+        this.aeropuerto = aeropuerto;
     }
 
     @Override

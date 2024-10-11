@@ -11,7 +11,7 @@ public class Aeropuerto {
     private String nombre;
     private int anio_inauguracion;
     private int capacidad;
-    private int id_direccion;
+    private Direccion direccion;
     private Blob imagen;
 
     /**
@@ -21,15 +21,15 @@ public class Aeropuerto {
      * @param nombre del aeropuerto
      * @param anio_inauguracion del aeropuerto
      * @param capacidad del aeropuerto
-     * @param id_direccion del aeropuerto
+     * @param direccion del aeropuerto
      * @param imagen del aeropuerto
      */
-    public Aeropuerto(int id, String nombre, int anio_inauguracion, int capacidad, int id_direccion, Blob imagen) {
+    public Aeropuerto(int id, String nombre, int anio_inauguracion, int capacidad, Direccion direccion, Blob imagen) {
         this.id = id;
         this.nombre = nombre;
         this.anio_inauguracion = anio_inauguracion;
         this.capacidad = capacidad;
-        this.id_direccion = id_direccion;
+        this.direccion = direccion;
         this.imagen = imagen;
     }
 
@@ -111,21 +111,21 @@ public class Aeropuerto {
     }
 
     /**
-     * Getter para id_direccion del aeropuerto
+     * Getter para la dirección del aeropuerto
      *
-     * @return id_direccion del aeropuerto
+     * @return dirección del aeropuerto
      */
-    public int getId_direccion() {
-        return id_direccion;
+    public Direccion getDireccion() {
+        return direccion;
     }
 
     /**
-     * Setter para id_direccion del aeropuerto
+     * Setter para la dirección del aeropuerto
      *
-     * @param id_direccion nuevo id del aeropuerto
+     * @param direccion nueva dirección del aeropuerto
      */
-    public void setId_direccion(int id_direccion) {
-        this.id_direccion = id_direccion;
+    public void setDireccion(Direccion direccion) {
+        this.direcion = direccion;
     }
 
     /**

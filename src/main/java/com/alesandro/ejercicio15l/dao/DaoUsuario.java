@@ -8,6 +8,9 @@ import java.sql.SQLException;
 
 import com.alesandro.ejercicio15l.model.Usuario;
 
+/**
+ * Clase donde se ejecuta las consultas para la tabla Usuarios
+ */
 public class DaoUsuario {
     /**
      * Metodo que carga los datos de la tabla Persona y los devuelve para usarlos en un listado de personas

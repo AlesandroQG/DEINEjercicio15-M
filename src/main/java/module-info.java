@@ -2,6 +2,7 @@ module com.alesandro.ejercicio15l {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires org.checkerframework.checker.qual;
 
 
     opens com.alesandro.ejercicio15l to javafx.fxml;

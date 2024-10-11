@@ -1,24 +1,28 @@
 package com.alesandro.ejercicio15l.model;
 
-import java.util.Objects;
+import java.sql.Blob;
 
 /**
  * Clase Aeropuerto Público
  */
-public class AeropuertoPublico {
-    private int id_aeropuerto;
+public class AeropuertoPublico extends Aeropuerto {
     private double financiacion;
     private int num_trabajadores;
 
     /**
      * Constructor con parámetros de aeropuerto público
      *
-     * @param id_aeropuerto del aeropuerto
+     * @param id del aeropuerto
+     * @param nombre del aeropuerto
+     * @param anio_inauguracion del aeropuerto
+     * @param capacidad del aeropuerto
+     * @param direccion del aeropuerto
+     * @param imagen del aeropuerto
      * @param financiacion del aeropuerto
      * @param num_trabajadores del aeropuerto
      */
-    public AeropuertoPublico(int id_aeropuerto, double financiacion, int num_trabajadores) {
-        this.id_aeropuerto = id_aeropuerto;
+    public AeropuertoPublico(int id, String nombre, int anio_inauguracion, int capacidad, Direccion direccion, Blob imagen, double financiacion, int num_trabajadores) {
+        super(id, nombre, anio_inauguracion, capacidad, direccion, imagen);
         this.financiacion = financiacion;
         this.num_trabajadores = num_trabajadores;
     }
@@ -29,27 +33,9 @@ public class AeropuertoPublico {
     public AeropuertoPublico() {}
 
     /**
-     * Getter para el id del aeropuerto
+     * Getter para la financiación del aeropuerto
      *
-     * @return id del aeropuerto
-     */
-    public int getId_aeropuerto() {
-        return id_aeropuerto;
-    }
-
-    /**
-     * Setter para el id del aeropuerto
-     *
-     * @param id_aeropuerto nuevo id del aeropuerto
-     */
-    public void setId_aeropuerto(int id_aeropuerto) {
-        this.id_aeropuerto = id_aeropuerto;
-    }
-
-    /**
-     * Getter para el id del aeropuerto
-     *
-     * @return id del aeropuerto
+     * @return financiación del aeropuerto
      */
     public double getFinanciacion() {
         return financiacion;
@@ -80,19 +66,6 @@ public class AeropuertoPublico {
      */
     public void setNum_trabajadores(int num_trabajadores) {
         this.num_trabajadores = num_trabajadores;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AeropuertoPublico that = (AeropuertoPublico) o;
-        return id_aeropuerto == that.id_aeropuerto && Double.compare(financiacion, that.financiacion) == 0 && num_trabajadores == that.num_trabajadores;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id_aeropuerto, financiacion, num_trabajadores);
     }
 
 }
