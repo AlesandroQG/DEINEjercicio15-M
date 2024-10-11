@@ -1,7 +1,11 @@
 package com.alesandro.ejercicio15l.model;
 
 import java.sql.Blob;
+import java.util.Objects;
 
+/**
+ * Clase Aeropuerto
+ */
 public class Aeropuerto {
     private int id;
     private String nombre;
@@ -9,4 +13,150 @@ public class Aeropuerto {
     private int capacidad;
     private int id_direccion;
     private Blob imagen;
+
+    /**
+     * Constructor con parámetros aeropuerto
+     *
+     * @param id del aeropuerto
+     * @param nombre del aeropuerto
+     * @param anio_inauguracion del aeropuerto
+     * @param capacidad del aeropuerto
+     * @param id_direccion del aeropuerto
+     * @param imagen del aeropuerto
+     */
+    public Aeropuerto(int id, String nombre, int anio_inauguracion, int capacidad, int id_direccion, Blob imagen) {
+        this.id = id;
+        this.nombre = nombre;
+        this.anio_inauguracion = anio_inauguracion;
+        this.capacidad = capacidad;
+        this.id_direccion = id_direccion;
+        this.imagen = imagen;
+    }
+
+    /**
+     * Constructor vacío de aeropuerto
+     */
+    public Aeropuerto() {}
+
+    /**
+     * Getter para el id del aeropuerto
+     *
+     * @return id del aeropuerto
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Setter para el id del aeropuerto
+     *
+     * @param id nuevo id del aeropuerto
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Getter para el id del aeropuerto
+     *
+     * @return id del aeropuerto
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * Setter para el nombre del aeropuerto
+     *
+     * @param nombre nuevo nombre del aeropuerto
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
+     * Getter para el año de inauguración del aeropuerto
+     *
+     * @return año de inauguración del aeropuerto
+     */
+    public int getAnio_inauguracion() {
+        return anio_inauguracion;
+    }
+
+    /**
+     * Setter para el año de inauguración del aeropuerto
+     *
+     * @param anio_inauguracion nuevo año de inauguración del aeropuerto
+     */
+    public void setAnio_inauguracion(int anio_inauguracion) {
+        this.anio_inauguracion = anio_inauguracion;
+    }
+
+    /**
+     * Getter para la capacidad del aeropuerto
+     *
+     * @return capacidad del aeropuerto
+     */
+    public int getCapacidad() {
+        return capacidad;
+    }
+
+    /**
+     * Setter para la capacidad del aeropuerto
+     *
+     * @param capacidad nueva capacidad del aeropuerto
+     */
+    public void setCapacidad(int capacidad) {
+        this.capacidad = capacidad;
+    }
+
+    /**
+     * Getter para id_direccion del aeropuerto
+     *
+     * @return id_direccion del aeropuerto
+     */
+    public int getId_direccion() {
+        return id_direccion;
+    }
+
+    /**
+     * Setter para id_direccion del aeropuerto
+     *
+     * @param id_direccion nuevo id del aeropuerto
+     */
+    public void setId_direccion(int id_direccion) {
+        this.id_direccion = id_direccion;
+    }
+
+    /**
+     * Getter para la imagen del aeropuerto
+     *
+     * @return imagen del aeropuerto
+     */
+    public Blob getImagen() {
+        return imagen;
+    }
+
+    /**
+     * Setter para la imagen del aeropuerto
+     *
+     * @param imagen nueva imagen del aeropuerto
+     */
+    public void setImagen(Blob imagen) {
+        this.imagen = imagen;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Aeropuerto that = (Aeropuerto) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
 }

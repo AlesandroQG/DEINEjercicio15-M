@@ -18,14 +18,14 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1000.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alesandro.ejercicio15l.controller.AeropuertosController">
    <children>
-      <MenuBar fx:id="menuBar" maxWidth="1.7976931348623157E308">
+      <MenuBar maxWidth="1.7976931348623157E308">
          <menus>
             <Menu mnemonicParsing="false" text="Aeropuertos">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#aniadirAeropuerto" text="Añadir…" />
-                  <MenuItem fx:id="menuEditarAeropuerto" mnemonicParsing="false" onAction="#editarAeropuerto" text="Editar…" />
-                  <MenuItem fx:id="menuBorrarAeropuerto" mnemonicParsing="false" onAction="#borrarAeropuerto" text="Borrar" />
-                  <MenuItem fx:id="menuInfoAeropuerto" mnemonicParsing="false" onAction="#infoAeropuerto" text="Mostrar información" />
+                  <MenuItem fx:id="menuEditarAeropuerto" disable="true" mnemonicParsing="false" onAction="#editarAeropuerto" text="Editar…" />
+                  <MenuItem fx:id="menuBorrarAeropuerto" disable="true" mnemonicParsing="false" onAction="#borrarAeropuerto" text="Borrar" />
+                  <MenuItem fx:id="menuInfoAeropuerto" disable="true" mnemonicParsing="false" onAction="#infoAeropuerto" text="Mostrar información" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Aviones">

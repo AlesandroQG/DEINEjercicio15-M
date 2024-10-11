@@ -1,8 +1,6 @@
 package com.alesandro.ejercicio15l.dao;
 
 import com.alesandro.ejercicio15l.db.DBConnect;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
