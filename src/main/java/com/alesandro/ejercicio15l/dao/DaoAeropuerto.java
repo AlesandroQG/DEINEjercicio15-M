@@ -2,12 +2,85 @@ package com.alesandro.ejercicio15l.dao;
 
 import com.alesandro.ejercicio15l.db.DBConnect;
 import com.alesandro.ejercicio15l.model.Aeropuerto;
+import com.alesandro.ejercicio15l.model.AeropuertoPublico;
+import com.alesandro.ejercicio15l.model.Direccion;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
+import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Clase donde se ejecuta las consultas para la tabla Aeropuertos
+ */
 public class DaoAeropuerto {
+    /**
+     * Metodo que busca un aeropuerto por medio de su id
+     *
+     * @param id id del aeropuerto a buscar
+     * @return aeropuerto o null
+     */
+    public static Aeropuerto getAeropuerto(int id) {
+        DBConnect connection;
+        Aeropuerto aeropuerto = null;
+        try {
+            connection = new DBConnect();
+            String consulta = "SELECT id,nombre,anio_inauguracion,capacidad,id_direccion,imagen FROM aeropuertos WHERE id = ?";
+            PreparedStatement pstmt = connection.getConnection().prepareStatement(consulta);
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                int id_aeropuerto = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+                int anio_inauguracion = rs.getInt("anio_inauguracion");
+                int capacidad = rs.getInt("capacidad");
+                int id_direccion = rs.getInt("id_direccion");
+                Direccion direccion = DaoDireccion.getDireccion(id_direccion);
+                Blob imagen = rs.getBlob("imagen");
+                aeropuerto = new Aeropuerto(id_aeropuerto,nombre,anio_inauguracion,capacidad,direccion,imagen);
+            }
+            rs.close();
+            connection.closeConnection();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return aeropuerto;
+    }
+
+    /**
+     * Metodo que carga los datos de la tabla Aeropuertos y los devuelve para usarlos en un listado de aeropuertos
+     *
+     * @return listado de aeropuertos para cargar en un tableview
+     */
+    public static ObservableList<Aeropuerto> cargarListado() {
+        DBConnect connection;
+        ObservableList<Aeropuerto> airportList = FXCollections.observableArrayList();
+        try{
+            connection = new DBConnect();
+            String consulta = "SELECT id,nombre,anio_inauguracion,capacidad,id_direccion,imagen FROM aeropuertos";
+            PreparedStatement pstmt = connection.getConnection().prepareStatement(consulta);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+                int anio_inauguracion = rs.getInt("anio_inauguracion");
+                int capacidad = rs.getInt("capacidad");
+                int id_direccion = rs.getInt("id_direccion");
+                Direccion direccion = DaoDireccion.getDireccion(id_direccion);
+                Blob imagen = rs.getBlob("imagen");
+                Aeropuerto airport = new Aeropuerto(id,nombre,anio_inauguracion,capacidad,direccion,imagen);
+                airportList.add(airport);
+            }
+            rs.close();
+            connection.closeConnection();
+        }catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return airportList;
+    }
+
     /**
      * Metodo que modifica los datos de un aeropuerto en la BD
      *

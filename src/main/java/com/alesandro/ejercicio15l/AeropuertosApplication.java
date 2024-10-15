@@ -37,7 +37,7 @@ public class AeropuertosApplication extends Application {
      *
      * @param args parámetros por consola
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Application.launch();
     }
 }

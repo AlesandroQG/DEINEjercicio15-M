@@ -1,6 +1,7 @@
 package com.alesandro.ejercicio15l.dao;
 
 import com.alesandro.ejercicio15l.db.DBConnect;
+import com.alesandro.ejercicio15l.model.Aeropuerto;
 import com.alesandro.ejercicio15l.model.AeropuertoPublico;
 import com.alesandro.ejercicio15l.model.Direccion;
 import javafx.collections.FXCollections;
@@ -11,7 +12,46 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Clase donde se ejecuta las consultas para la tabla Aeropuertos Públicos
+ */
 public class DaoAeropuertoPublico {
+    /**
+     * Metodo que busca un aeropuerto público por medio de su id
+     *
+     * @param id id del aeropuerto a buscar
+     * @return aeropuerto público o null
+     */
+    public static AeropuertoPublico getAeropuerto(int id) {
+        DBConnect connection;
+        AeropuertoPublico aeropuerto = null;
+        try {
+            connection = new DBConnect();
+            String consulta = "SELECT id,nombre,anio_inauguracion,capacidad,id_direccion,imagen,financiacion,num_trabajadores FROM aeropuertos,aeropuertos_publicos WHERE id=id_aeropuerto AND id = ?";
+            PreparedStatement pstmt = connection.getConnection().prepareStatement(consulta);
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                int id_aeropuerto = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+                int anio_inauguracion = rs.getInt("anio_inauguracion");
+                int capacidad = rs.getInt("capacidad");
+                int id_direccion = rs.getInt("id_direccion");
+                Direccion direccion = DaoDireccion.getDireccion(id_direccion);
+                Blob imagen = rs.getBlob("imagen");
+                Aeropuerto airport = new Aeropuerto(id_aeropuerto,nombre,anio_inauguracion,capacidad,direccion,imagen);
+                double financiacion = rs.getDouble("financiacion");
+                int num_trabajadores = rs.getInt("num_trabajadores");
+                aeropuerto = new AeropuertoPublico(airport,financiacion,num_trabajadores);
+            }
+            rs.close();
+            connection.closeConnection();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return aeropuerto;
+    }
+
     /**
      * Metodo que carga los datos de la tabla AeropuertoPublico y los devuelve para usarlos en un listado de aeropuertos
      *
@@ -33,9 +73,10 @@ public class DaoAeropuertoPublico {
                 int id_direccion = rs.getInt("id_direccion");
                 Direccion direccion = DaoDireccion.getDireccion(id_direccion);
                 Blob imagen = rs.getBlob("imagen");
+                Aeropuerto aeropuerto = new Aeropuerto(id,nombre,anio_inauguracion,capacidad,direccion,imagen);
                 double financiacion = rs.getDouble("financiacion");
                 int num_trabajadores = rs.getInt("num_trabajadores");
-                AeropuertoPublico airport = new AeropuertoPublico(id,nombre,anio_inauguracion,capacidad,direccion,imagen,financiacion,num_trabajadores);
+                AeropuertoPublico airport = new AeropuertoPublico(aeropuerto,financiacion,num_trabajadores);
                 airportList.add(airport);
             }
             rs.close();
@@ -58,12 +99,12 @@ public class DaoAeropuertoPublico {
         PreparedStatement pstmt;
         try {
             connection = new DBConnect();
-            String consulta = "UPDATE aeropuertos_publicos SET nombre = ?,apellidos = ?,edad = ? WHERE id = ?";
+            String consulta = "UPDATE aeropuertos_publicos SET id_aeropuerto = ?,financiacion = ?,num_trabajadores = ? WHERE id_aeropuerto = ?";
             pstmt = connection.getConnection().prepareStatement(consulta);
-            pstmt.setString(1, pNueva.getNombre());
-            pstmt.setString(2, pNueva.getApellidos());
-            pstmt.setInt(3, pNueva.getEdad());
-            pstmt.setInt(4, p.getId());
+            pstmt.setInt(1, aeropuertoNuevo.getAeropuerto().getId());
+            pstmt.setDouble(2, aeropuertoNuevo.getFinanciacion());
+            pstmt.setInt(3, aeropuertoNuevo.getNum_trabajadores());
+            pstmt.setInt(4, aeropuerto.getAeropuerto().getId());
             int filasAfectadas = pstmt.executeUpdate();
             System.out.println("Actualizada aeropuerto");
             pstmt.close();
@@ -81,7 +122,7 @@ public class DaoAeropuertoPublico {
      * @param aeropuerto		Instancia del modelo aeropuerto con datos nuevos
      * @return			id/-1
      */
-    public  static int insertar(AeropuertoPublico persona) {
+    public  static int insertar(AeropuertoPublico aeropuerto) {
         DBConnect connection;
         PreparedStatement pstmt;
 
@@ -89,12 +130,12 @@ public class DaoAeropuertoPublico {
             connection = new DBConnect();
             // INSERT INTO `DNI`.`dni` (`dni`) VALUES ('el nuevo');
 
-            String consulta = "INSERT INTO AeropuertoPublico (nombre,apellidos,edad) VALUES (?,?,?) ";
+            String consulta = "INSERT INTO aeropuertos_publico (id_aeropuerto,financiacion,num_trabajadores) VALUES (?,?,?) ";
             pstmt = connection.getConnection().prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            pstmt.setString(1, persona.getNombre());
-            pstmt.setString(2, persona.getApellidos());
-            pstmt.setInt(3, persona.getEdad());
+            pstmt.setInt(1, aeropuerto.getAeropuerto().getId());
+            pstmt.setDouble(2, aeropuerto.getFinanciacion());
+            pstmt.setInt(3, aeropuerto.getNum_trabajadores());
 
             int filasAfectadas = pstmt.executeUpdate();
             //if (pstmt != null)
@@ -130,9 +171,9 @@ public class DaoAeropuertoPublico {
         PreparedStatement pstmt;
         try {
             connection = new DBConnect();
-            String consulta = "DELETE FROM aeropuertos_publicos WHERE (id = ?)";
+            String consulta = "DELETE FROM aeropuertos_publicos WHERE id_aeropuerto = ?";
             pstmt = connection.getConnection().prepareStatement(consulta);
-            pstmt.setInt(1, aeropuerto.getId());
+            pstmt.setInt(1, aeropuerto.getAeropuerto().getId());
             int filasAfectadas = pstmt.executeUpdate();
             pstmt.close();
             connection.closeConnection();

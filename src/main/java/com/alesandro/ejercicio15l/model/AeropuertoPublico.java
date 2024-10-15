@@ -1,28 +1,22 @@
 package com.alesandro.ejercicio15l.model;
 
-import java.sql.Blob;
-
 /**
  * Clase Aeropuerto Público
  */
-public class AeropuertoPublico extends Aeropuerto {
+public class AeropuertoPublico {
+    private Aeropuerto aeropuerto;
     private double financiacion;
     private int num_trabajadores;
 
     /**
      * Constructor con parámetros de aeropuerto público
      *
-     * @param id del aeropuerto
-     * @param nombre del aeropuerto
-     * @param anio_inauguracion del aeropuerto
-     * @param capacidad del aeropuerto
-     * @param direccion del aeropuerto
-     * @param imagen del aeropuerto
+     * @param aeropuerto
      * @param financiacion del aeropuerto
      * @param num_trabajadores del aeropuerto
      */
-    public AeropuertoPublico(int id, String nombre, int anio_inauguracion, int capacidad, Direccion direccion, Blob imagen, double financiacion, int num_trabajadores) {
-        super(id, nombre, anio_inauguracion, capacidad, direccion, imagen);
+    public AeropuertoPublico(Aeropuerto aeropuerto, double financiacion, int num_trabajadores) {
+        this.aeropuerto = aeropuerto;
         this.financiacion = financiacion;
         this.num_trabajadores = num_trabajadores;
     }
@@ -31,6 +25,24 @@ public class AeropuertoPublico extends Aeropuerto {
      * Constructor vacío de aeropuerto público
      */
     public AeropuertoPublico() {}
+
+    /**
+     * Getter para el aeropuerto
+     *
+     * @return aeropuerto
+     */
+    public Aeropuerto getAeropuerto() {
+        return aeropuerto;
+    }
+
+    /**
+     * Setter para el aeropuerto
+     *
+     * @param aeropuerto objeto aeropuerto
+     */
+    public void setAeropuerto(Aeropuerto aeropuerto) {
+        this.aeropuerto = aeropuerto;
+    }
 
     /**
      * Getter para la financiación del aeropuerto

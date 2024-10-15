@@ -13,10 +13,10 @@ import com.alesandro.ejercicio15l.model.Usuario;
  */
 public class DaoUsuario {
     /**
-     * Metodo que carga los datos de la tabla Persona y los devuelve para usarlos en un listado de personas
+     * Metodo que busca un usuario por medio de su nombre de usuario
      *
      * @param usuario nombre de usuario a buscar
-     * @return persona o null
+     * @return usuario o null
      */
     public static Usuario getUsuario(String usuario) {
         DBConnect connection;

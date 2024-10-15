@@ -125,7 +125,7 @@ public class Aeropuerto {
      * @param direccion nueva dirección del aeropuerto
      */
     public void setDireccion(Direccion direccion) {
-        this.direcion = direccion;
+        this.direccion = direccion;
     }
 
     /**
