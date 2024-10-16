@@ -6,7 +6,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -77,7 +76,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField>
+                  <TextField fx:id="filtroNombre">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -90,17 +89,6 @@
          </VBox.margin>
       </TilePane>
       <TableView fx:id="tabla">
-         <columns>
-            <TableColumn fx:id="colId" prefWidth="75.0" text="ID" />
-            <TableColumn fx:id="colNombre" prefWidth="100.0" text="Nombre" />
-            <TableColumn fx:id="colPais" prefWidth="75.0" text="País" />
-            <TableColumn fx:id="colCiudad" prefWidth="75.0" text="Ciudad" />
-            <TableColumn fx:id="colCalle" prefWidth="75.0" text="Calle" />
-            <TableColumn fx:id="colNumero" prefWidth="75.0" text="Número" />
-            <TableColumn fx:id="colAnio" prefWidth="75.0" text="Año" />
-            <TableColumn fx:id="colCapacidad" prefWidth="75.0" text="Capacidad" />
-            <TableColumn fx:id="colNSocios" prefWidth="75.0" text="Nº Socios" />
-         </columns>
          <VBox.margin>
             <Insets />
          </VBox.margin>

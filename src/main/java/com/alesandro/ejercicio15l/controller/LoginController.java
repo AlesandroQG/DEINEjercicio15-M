@@ -69,7 +69,7 @@ public class LoginController implements Initializable {
                 if (password.equals(user.getPassword())) {
                     System.out.println("Login correcto");
                     try {
-                        FXMLLoader fxmlLoader = new FXMLLoader(AeropuertosApplication.class.getResource("/fxml/Aeropuertos.fxml"));
+                        FXMLLoader fxmlLoader = new FXMLLoader(LoginController.class.getResource("/fxml/Aeropuertos.fxml"));
                         Scene scene = new Scene(fxmlLoader.load());
                         Stage stage = new Stage();
                         stage.setScene(scene);

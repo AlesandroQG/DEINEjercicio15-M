@@ -61,6 +61,10 @@ public class DatosAeropuertoController implements Initializable {
         this.aeropuerto = aeropuerto;
     }
 
+    public DatosAeropuertoController() {
+        this.aeropuerto = null;
+    }
+
     /**
      * Función que se ejecuta cuando se inicia la ventana
      *
@@ -69,7 +73,9 @@ public class DatosAeropuertoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //
+        if (aeropuerto == null) {
+            //
+        }
     }
 
     @FXML
