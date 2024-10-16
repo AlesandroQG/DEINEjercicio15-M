@@ -5,11 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8d043545-0fa8-4fe3-92f5-9c9a2c1eeb27" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/ActivarDesactivarAvionController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/AniadirAvionController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/BorrarAvionController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/ActivarDesactivarAvion.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/AniadirAvion.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fxml/BorrarAvion.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/AeropuertosApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/AeropuertosApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/AeropuertosController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/AeropuertosController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/DatosAeropuertoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/DatosAeropuertoController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/Aeropuertos.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/Aeropuertos.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/DatosAeropuerto.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/DatosAeropuerto.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,5 +86,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

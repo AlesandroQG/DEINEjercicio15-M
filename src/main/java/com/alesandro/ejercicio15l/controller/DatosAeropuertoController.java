@@ -3,17 +3,21 @@ package com.alesandro.ejercicio15l.controller;
 import com.alesandro.ejercicio15l.model.Aeropuerto;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
  * Clase que controla los eventos de la ventana datos de aeropuerto
  */
-public class DatosAeropuertoController implements Initializable {
+public class DatosAeropuertoController extends GridPane implements Initializable {
     private Aeropuerto aeropuerto;
+    private FXMLLoader fxmlLoader;
 
     @FXML // fx:id="lblParam1"
     private Label lblParam1; // Value injected by FXMLLoader
@@ -59,10 +63,30 @@ public class DatosAeropuertoController implements Initializable {
 
     public DatosAeropuertoController(Aeropuerto aeropuerto) {
         this.aeropuerto = aeropuerto;
+        fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/DatosAeropuerto.fxml"));
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+        try {
+            fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public DatosAeropuertoController() {
         this.aeropuerto = null;
+        fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/DatosAeropuerto.fxml"));
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+        try {
+            fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public FXMLLoader getFxmlLoader() {
+        return fxmlLoader;
     }
 
     /**

@@ -23,10 +23,10 @@ public class AeropuertosApplication extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(AeropuertosApplication.class.getResource("/fxml/Login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("AVIONES - LOGIN");
-        stage.getIcons().add(new Image(AeropuertosApplication.class.getResourceAsStream("/imagenes/avion.png")));
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/imagenes/avion.png")));
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();

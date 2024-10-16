@@ -52,8 +52,11 @@ public class AeropuertosController implements Initializable {
     @FXML // fx:id="tabla"
     private TableView tabla; // Value injected by FXMLLoader
 
-    private ObservableList<Aeropuerto> masterData = FXCollections.observableArrayList();
-    private ObservableList<Aeropuerto> filteredData = FXCollections.observableArrayList();
+    private ObservableList masterData = FXCollections.observableArrayList();
+    private ObservableList filteredData = FXCollections.observableArrayList();
+
+    private ChangeListener<AeropuertoPublico> listenerPublicos;
+    private ChangeListener<AeropuertoPrivado> listenerPrivados;
 
     /**
      * Función que se ejecuta cuando se carga la ventana
@@ -63,6 +66,27 @@ public class AeropuertosController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Listeners
+        listenerPublicos = new ChangeListener<AeropuertoPublico>() {
+            @Override
+            public void changed(ObservableValue<? extends AeropuertoPublico> observableValue, AeropuertoPublico oldValue, AeropuertoPublico newValue) {
+                if (newValue != null) {
+                    deshabilitarMenus(false);
+                } else {
+                    deshabilitarMenus(true);
+                }
+            }
+        };
+        listenerPrivados = new ChangeListener<AeropuertoPrivado>() {
+            @Override
+            public void changed(ObservableValue<? extends AeropuertoPrivado> observableValue, AeropuertoPrivado oldValue, AeropuertoPrivado newValue) {
+                if (newValue != null) {
+                    deshabilitarMenus(false);
+                } else {
+                    deshabilitarMenus(true);
+                }
+            }
+        };
         // Carga inicial
         cargarPublicos();
         // RadioButtons
@@ -74,6 +98,7 @@ public class AeropuertosController implements Initializable {
             }
         });
         // Filtro nombre
+        filtroNombre.setOnKeyTyped(keyEvent -> filtrar());
     }
 
     /**
@@ -83,13 +108,14 @@ public class AeropuertosController implements Initializable {
      */
     @FXML
     void aniadirAeropuerto(ActionEvent event) {
+        DatosAeropuertoController controller = new DatosAeropuertoController();
         try {
             Window ventana = rbPrivados.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(AeropuertosController.class.getResource("/fxml/DatosAeropuerto.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/DatosAeropuerto.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
             stage.setScene(scene);
-            stage.getIcons().add(new Image(AeropuertosApplication.class.getResourceAsStream("/imagenes/avion.png")));
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/imagenes/avion.png")));
             stage.setTitle("AVIONES - AÑADIR AEROPUERTO");
             stage.initOwner(ventana);
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -102,32 +128,74 @@ public class AeropuertosController implements Initializable {
 
     @FXML
     void editarAeropuerto(ActionEvent event) {
-
+        Object aeropuerto = tabla.getSelectionModel().getSelectedItem();
     }
 
     @FXML
     void borrarAeropuerto(ActionEvent event) {
-
+        Object aeropuerto = tabla.getSelectionModel().getSelectedItem();
     }
 
     @FXML
     void infoAeropuerto(ActionEvent event) {
-
+        Object aeropuerto = tabla.getSelectionModel().getSelectedItem();
     }
 
     @FXML
     void aniadirAvion(ActionEvent event) {
-
+        try {
+            Window ventana = rbPrivados.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AniadirAvion.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/imagenes/avion.png")));
+            stage.setTitle("AVIONES - AÑADIR AVIÓN");
+            stage.initOwner(ventana);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            alerta("Error abriendo ventana, por favor inténtelo de nuevo");
+        }
     }
 
     @FXML
     void activarDesactivarAvion(ActionEvent event) {
-
+        try {
+            Window ventana = rbPrivados.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ActivarDesactivarAvion.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/imagenes/avion.png")));
+            stage.setTitle("AVIONES - ACTIVAR/DESACTIVAR AVIÓN");
+            stage.initOwner(ventana);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            alerta("Error abriendo ventana, por favor inténtelo de nuevo");
+        }
     }
 
     @FXML
     void borrarAvion(ActionEvent event) {
-
+        try {
+            Window ventana = rbPrivados.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/BorrarAvion.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/imagenes/avion.png")));
+            stage.setTitle("AVIONES - BORRAR AVIÓN");
+            stage.initOwner(ventana);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+            alerta("Error abriendo ventana, por favor inténtelo de nuevo");
+        }
     }
 
     /**
@@ -136,6 +204,9 @@ public class AeropuertosController implements Initializable {
     public void cargarPublicos() {
         // Vaciar tabla
         tabla.getSelectionModel().clearSelection();
+        filtroNombre.setText(null);
+        masterData.clear();
+        filteredData.clear();
         tabla.getItems().clear();
         tabla.getColumns().clear();
         // Cargar columnas
@@ -162,18 +233,11 @@ public class AeropuertosController implements Initializable {
         tabla.getColumns().addAll(colId,colNombre,colPais,colCiudad,colCalle,colNumero,colAnio,colCapacidad,colFinanciacion,colTrabajadores);
         // Cargar filas
         ObservableList<AeropuertoPublico> aeropuertos = DaoAeropuertoPublico.cargarListado();
-        tabla.getItems().addAll(aeropuertos);
+        masterData.setAll(aeropuertos);
+        tabla.setItems(aeropuertos);
         // Listener
-        tabla.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<AeropuertoPublico>() {
-            @Override
-            public void changed(ObservableValue<? extends AeropuertoPublico> observableValue, AeropuertoPublico oldValue, AeropuertoPublico newValue) {
-                if (newValue != null) {
-                    deshabilitarMenus(false);
-                } else {
-                    deshabilitarMenus(true);
-                }
-            }
-        });
+        tabla.getSelectionModel().selectedItemProperty().removeListener(listenerPrivados);
+        tabla.getSelectionModel().selectedItemProperty().addListener(listenerPrivados);
     }
 
     /**
@@ -182,6 +246,9 @@ public class AeropuertosController implements Initializable {
     public void cargarPrivados() {
         // Vaciar tabla
         tabla.getSelectionModel().clearSelection();
+        filtroNombre.setText(null);
+        masterData.clear();
+        filteredData.clear();
         tabla.getItems().clear();
         tabla.getColumns().clear();
         // Cargar columnas
@@ -206,18 +273,11 @@ public class AeropuertosController implements Initializable {
         tabla.getColumns().addAll(colId,colNombre,colPais,colCiudad,colCalle,colNumero,colAnio,colCapacidad,colSocios);
         // Cargar filas
         ObservableList<AeropuertoPrivado> aeropuertos = DaoAeropuertoPrivado.cargarListado();
-        tabla.getItems().addAll(aeropuertos);
+        masterData.setAll(aeropuertos);
+        tabla.setItems(aeropuertos);
         // Listener
-        tabla.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<AeropuertoPrivado>() {
-            @Override
-            public void changed(ObservableValue<? extends AeropuertoPrivado> observableValue, AeropuertoPrivado oldValue, AeropuertoPrivado newValue) {
-                if (newValue != null) {
-                    deshabilitarMenus(false);
-                } else {
-                    deshabilitarMenus(true);
-                }
-            }
-        });
+        tabla.getSelectionModel().selectedItemProperty().removeListener(listenerPublicos);
+        tabla.getSelectionModel().selectedItemProperty().addListener(listenerPrivados);
     }
 
     /**
@@ -229,6 +289,39 @@ public class AeropuertosController implements Initializable {
         menuEditarAeropuerto.setDisable(deshabilitado);
         menuBorrarAeropuerto.setDisable(deshabilitado);
         menuInfoAeropuerto.setDisable(deshabilitado);
+    }
+
+    /**
+     * Función que filtra la tabla de aeropuertos por nombre
+     */
+    public void filtrar() {
+        String valor = filtroNombre.getText();
+        valor = valor.toLowerCase();
+        if (valor.isEmpty()) {
+            tabla.setItems(masterData);
+        } else {
+            filteredData.clear();
+            if (masterData.getFirst() instanceof AeropuertoPublico) {
+                for (Object aeropuerto : masterData) {
+                    AeropuertoPublico aeropuertoPublico = (AeropuertoPublico) aeropuerto;
+                    String nombre = aeropuertoPublico.getAeropuerto().getNombre();
+                    nombre = nombre.toLowerCase();
+                    if (nombre.contains(valor)) {
+                        filteredData.add(aeropuertoPublico);
+                    }
+                }
+            } else {
+                for (Object aeropuerto : masterData) {
+                    AeropuertoPrivado aeropuertoPrivado = (AeropuertoPrivado) aeropuerto;
+                    String nombre = aeropuertoPrivado.getAeropuerto().getNombre();
+                    nombre = nombre.toLowerCase();
+                    if (nombre.startsWith(valor)) {
+                        filteredData.add(aeropuertoPrivado);
+                    }
+                }
+            }
+            tabla.setItems(filteredData);
+        }
     }
 
     /**

@@ -27,7 +27,7 @@ public class LoginController implements Initializable {
     private TextField txtUsuario; // Value injected by FXMLLoader
 
     /**
-     * TODO: Delete
+     * TODO: Delete this
      *
      * @param url
      * @param resourceBundle
