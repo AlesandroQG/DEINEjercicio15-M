@@ -11,8 +11,9 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/AniadirAvionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/AniadirAvionController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/BorrarAvionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/BorrarAvionController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/DatosAeropuertoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/DatosAeropuertoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/AniadirAvion.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/AniadirAvion.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/dao/DaoAvion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/dao/DaoAvion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/model/Aeropuerto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/model/Aeropuerto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/model/Avion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/alesandro/ejercicio15l/model/Avion.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

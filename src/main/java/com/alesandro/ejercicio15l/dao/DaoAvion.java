@@ -52,6 +52,39 @@ public class DaoAvion {
      *
      * @return listado de aviones para cargar en un tableview
      */
+    public static ObservableList<Avion> cargarListado(Aeropuerto aeropuerto) {
+        DBConnect connection;
+        ObservableList<Avion> airplaneList = FXCollections.observableArrayList();
+        try{
+            connection = new DBConnect();
+            String consulta = "SELECT id,modelo,numero_asientos,velocidad_maxima,activado,id_aeropuerto FROM aviones WHERE id_aeropuerto = ?";
+            PreparedStatement pstmt = connection.getConnection().prepareStatement(consulta);
+            pstmt.setInt(1,aeropuerto.getId());
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String modelo = rs.getString("modelo");
+                int numero_asientos = rs.getInt("numero_asientos");
+                int velocidad_maxima = rs.getInt("velocidad_maxima");
+                boolean activado = rs.getBoolean("activado");
+                int id_aeropuerto = rs.getInt("id_aeropuerto");
+                Aeropuerto aeropuerto_db = DaoAeropuerto.getAeropuerto(id_aeropuerto);
+                Avion avion = new Avion(id,modelo,numero_asientos,velocidad_maxima,activado,aeropuerto_db);
+                airplaneList.add(avion);
+            }
+            rs.close();
+            connection.closeConnection();
+        }catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return airplaneList;
+    }
+
+    /**
+     * Metodo que carga los datos de la tabla Avión y los devuelve para usarlos en un listado de aviones
+     *
+     * @return listado de aviones para cargar en un tableview
+     */
     public static ObservableList<Avion> cargarListado() {
         DBConnect connection;
         ObservableList<Avion> airplaneList = FXCollections.observableArrayList();
@@ -163,6 +196,31 @@ public class DaoAvion {
             String consulta = "DELETE FROM aviones WHERE id = ?";
             pstmt = connection.getConnection().prepareStatement(consulta);
             pstmt.setInt(1, avion.getId());
+            int filasAfectadas = pstmt.executeUpdate();
+            pstmt.close();
+            connection.closeConnection();
+            System.out.println("Eliminado con éxito");
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Elimina un avion en función del modelo Avion que le hayamos pasado
+     *
+     * @param aeropuerto Aeropuerto a eliminar
+     * @return a boolean
+     */
+    public  static boolean eliminarPorAeropuerto(Aeropuerto aeropuerto){
+        DBConnect connection;
+        PreparedStatement pstmt;
+        try {
+            connection = new DBConnect();
+            String consulta = "DELETE FROM aviones WHERE id_aeropuerto = ?";
+            pstmt = connection.getConnection().prepareStatement(consulta);
+            pstmt.setInt(1, aeropuerto.getId());
             int filasAfectadas = pstmt.executeUpdate();
             pstmt.close();
             connection.closeConnection();

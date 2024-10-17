@@ -39,6 +39,16 @@ public class Aeropuerto {
     public Aeropuerto() {}
 
     /**
+     * ToString de aeropuerto
+     *
+     * @return nombre del aeropuerto
+     */
+    @Override
+    public String toString() {
+        return nombre;
+    }
+
+    /**
      * Getter para el id del aeropuerto
      *
      * @return id del aeropuerto

@@ -38,6 +38,16 @@ public class Avion {
     public Avion() {}
 
     /**
+     * ToString de avión
+     *
+     * @return modelo del avión
+     */
+    @Override
+    public String toString() {
+        return modelo;
+    }
+
+    /**
      * Getter para el id del avión
      *
      * @return id del avión
@@ -150,12 +160,12 @@ public class Avion {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Avion avion = (Avion) o;
-        return id == avion.id;
+        return Objects.equals(modelo, avion.modelo) && Objects.equals(aeropuerto, avion.aeropuerto);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hash(modelo, aeropuerto);
     }
 
 }

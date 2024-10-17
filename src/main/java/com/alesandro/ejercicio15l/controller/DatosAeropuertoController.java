@@ -114,4 +114,30 @@ public class DatosAeropuertoController extends GridPane implements Initializable
         stage.close();
     }
 
+    /**
+     * Función que muestra un mensaje de alerta al usuario
+     *
+     * @param texto contenido de la alerta
+     */
+    public void alerta(String texto) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setHeaderText(null);
+        alerta.setTitle("ERROR");
+        alerta.setContentText(texto);
+        alerta.showAndWait();
+    }
+
+    /**
+     * Función que muestra un mensaje de confirmación al usuario
+     *
+     * @param texto contenido del mensaje
+     */
+    public void confirmacion(String texto) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setHeaderText(null);
+        alerta.setTitle("Info");
+        alerta.setContentText(texto);
+        alerta.showAndWait();
+    }
+
 }

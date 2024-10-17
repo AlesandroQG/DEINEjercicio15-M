@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.alesandro.ejercicio15l.model.*;
@@ -126,21 +127,54 @@ public class AeropuertosController implements Initializable {
         }
     }
 
+    /**
+     * Función que se ejecuta cuando se pulsa el botón "Editar" de aeropuertos. Abre un menú para editar el aeropuerto seleccionado
+     *
+     * @param event
+     */
     @FXML
     void editarAeropuerto(ActionEvent event) {
         Object aeropuerto = tabla.getSelectionModel().getSelectedItem();
     }
 
+    /**
+     * Función que se ejecuta cuando se pulsa el botón "Borrar" de aeropuertos. Elimina el aeropuerto seleccionado
+     *
+     * @param event
+     */
     @FXML
     void borrarAeropuerto(ActionEvent event) {
         Object aeropuerto = tabla.getSelectionModel().getSelectedItem();
+        if (aeropuerto == null) {
+            alerta("Selecciona un aeropuerto antes de eliminarlo");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.initOwner(tabla.getScene().getWindow());
+            alert.setHeaderText(null);
+            alert.setTitle("Confirmación");
+            alert.setContentText("¿Estás seguro que quieres eliminar ese aeropuerto? Esto también eliminara los aviones en este aeropuerto.");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                //
+            }
+        }
     }
 
+    /**
+     * Función que se ejecuta cuando se pulsa el botón "Info" de aeropuertos. Abre un menú para ver los datos del aeropuerto
+     *
+     * @param event
+     */
     @FXML
     void infoAeropuerto(ActionEvent event) {
         Object aeropuerto = tabla.getSelectionModel().getSelectedItem();
     }
 
+    /**
+     * Función que se ejecuta cuando se pulsa el botón "Añadir" de aviones. Abre un menú para añadir un avión nuevo
+     *
+     * @param event
+     */
     @FXML
     void aniadirAvion(ActionEvent event) {
         try {
@@ -160,6 +194,11 @@ public class AeropuertosController implements Initializable {
         }
     }
 
+    /**
+     * Función que se ejecuta cuando se pulsa el botón "Activar/Desactivar" de aviones. Abre un menú para activar o desactivar un avión
+     *
+     * @param event
+     */
     @FXML
     void activarDesactivarAvion(ActionEvent event) {
         try {
@@ -179,6 +218,11 @@ public class AeropuertosController implements Initializable {
         }
     }
 
+    /**
+     * Función que se ejecuta cuando se pulsa el botón "Borrar" de aviones. Abre un menú para borrar un avión
+     *
+     * @param event
+     */
     @FXML
     void borrarAvion(ActionEvent event) {
         try {
