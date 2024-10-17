@@ -1,6 +1,5 @@
 package com.alesandro.ejercicio15l.controller;
 
-import com.alesandro.ejercicio15l.AeropuertosApplication;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -58,6 +57,8 @@ public class AeropuertosController implements Initializable {
     private ChangeListener<AeropuertoPublico> listenerPublicos;
     private ChangeListener<AeropuertoPrivado> listenerPrivados;
 
+    private Object aeropuertoSeleccionado;
+
     /**
      * Función que se ejecuta cuando se carga la ventana
      *
@@ -108,7 +109,6 @@ public class AeropuertosController implements Initializable {
      */
     @FXML
     void aniadirAeropuerto(ActionEvent event) {
-        DatosAeropuertoController controller = new DatosAeropuertoController();
         try {
             Window ventana = rbPrivados.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/DatosAeropuerto.fxml"));

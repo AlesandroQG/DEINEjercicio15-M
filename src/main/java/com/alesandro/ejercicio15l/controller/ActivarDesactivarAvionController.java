@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,7 +36,8 @@ public class ActivarDesactivarAvionController implements Initializable {
 
     @FXML
     void cancelar(ActionEvent event) {
-
+        Stage stage = (Stage)cbAeropuerto.getScene().getWindow();
+        stage.close();
     }
 
     @FXML

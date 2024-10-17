@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -109,7 +110,8 @@ public class DatosAeropuertoController extends GridPane implements Initializable
 
     @FXML
     void cancelar(ActionEvent event) {
-
+        Stage stage = (Stage)txtNombre.getScene().getWindow();
+        stage.close();
     }
 
 }

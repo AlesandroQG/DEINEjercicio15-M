@@ -1,6 +1,5 @@
 package com.alesandro.ejercicio15l.controller;
 
-import com.alesandro.ejercicio15l.AeropuertosApplication;
 import com.alesandro.ejercicio15l.dao.DaoUsuario;
 import com.alesandro.ejercicio15l.model.Usuario;
 import javafx.event.ActionEvent;
