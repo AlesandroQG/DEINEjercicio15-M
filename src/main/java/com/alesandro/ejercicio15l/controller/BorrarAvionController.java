@@ -49,10 +49,17 @@ public class BorrarAvionController implements Initializable {
         cambioAeropuerto(cbAeropuerto.getSelectionModel().getSelectedItem());
     }
 
+    /**
+     * Función que carga los aviones de un aeropuerto cuando este se cambia
+     *
+     * @param aeropuerto nuevo aeropuerto seleccionado
+     */
     public void cambioAeropuerto(Aeropuerto aeropuerto) {
-        ObservableList<Avion> aviones = DaoAvion.cargarListado(aeropuerto);
-        cbAvion.setItems(aviones);
-        cbAvion.getSelectionModel().select(0);
+        if (aeropuerto != null) {
+            ObservableList<Avion> aviones = DaoAvion.cargarListado(aeropuerto);
+            cbAvion.setItems(aviones);
+            cbAvion.getSelectionModel().select(0);
+        }
     }
 
     /**
