@@ -7,6 +7,7 @@ import com.alesandro.ejercicio15m.model.Direccion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,7 +39,7 @@ public class DaoAeropuertoPrivado {
                 int capacidad = rs.getInt("capacidad");
                 int id_direccion = rs.getInt("id_direccion");
                 Direccion direccion = DaoDireccion.getDireccion(id_direccion);
-                Blob imagen = rs.getBlob("imagen");
+                InputStream imagen = rs.getBlob("imagen");
                 Aeropuerto airport = new Aeropuerto(id,nombre,anio_inauguracion,capacidad,direccion,imagen);
                 int numero_socios = rs.getInt("numero_socios");
                 aeropuerto = new AeropuertoPrivado(airport,numero_socios);
@@ -71,7 +72,7 @@ public class DaoAeropuertoPrivado {
                 int capacidad = rs.getInt("capacidad");
                 int id_direccion = rs.getInt("id_direccion");
                 Direccion direccion = DaoDireccion.getDireccion(id_direccion);
-                Blob imagen = rs.getBlob("imagen");
+                InputStream imagen = rs.getBlob("imagen");
                 Aeropuerto aeropuerto = new Aeropuerto(id,nombre,anio_inauguracion,capacidad,direccion,imagen);
                 int numero_socios = rs.getInt("numero_socios");
                 AeropuertoPrivado airport = new AeropuertoPrivado(aeropuerto,numero_socios);

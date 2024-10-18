@@ -1,5 +1,6 @@
 package com.alesandro.ejercicio15m.model;
 
+import java.io.InputStream;
 import java.sql.Blob;
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ public class Aeropuerto {
     private int anio_inauguracion;
     private int capacidad;
     private Direccion direccion;
-    private Blob imagen;
+    private InputStream imagen;
 
     /**
      * Constructor con parámetros aeropuerto
@@ -24,7 +25,7 @@ public class Aeropuerto {
      * @param direccion del aeropuerto
      * @param imagen del aeropuerto
      */
-    public Aeropuerto(int id, String nombre, int anio_inauguracion, int capacidad, Direccion direccion, Blob imagen) {
+    public Aeropuerto(int id, String nombre, int anio_inauguracion, int capacidad, Direccion direccion, InputStream imagen) {
         this.id = id;
         this.nombre = nombre;
         this.anio_inauguracion = anio_inauguracion;
@@ -143,7 +144,7 @@ public class Aeropuerto {
      *
      * @return imagen del aeropuerto
      */
-    public Blob getImagen() {
+    public InputStream getImagen() {
         return imagen;
     }
 
@@ -152,7 +153,7 @@ public class Aeropuerto {
      *
      * @param imagen nueva imagen del aeropuerto
      */
-    public void setImagen(Blob imagen) {
+    public void setImagen(InputStream imagen) {
         this.imagen = imagen;
     }
 
