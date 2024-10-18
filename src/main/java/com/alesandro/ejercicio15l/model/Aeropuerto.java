@@ -161,12 +161,11 @@ public class Aeropuerto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Aeropuerto that = (Aeropuerto) o;
-        return id == that.id;
+        return anio_inauguracion == that.anio_inauguracion && capacidad == that.capacidad && Objects.equals(nombre, that.nombre) && Objects.equals(direccion, that.direccion) && Objects.equals(imagen, that.imagen);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hash(nombre, anio_inauguracion, capacidad, direccion, imagen);
     }
-
 }

@@ -99,18 +99,18 @@ public class DaoAeropuertoPublico {
         PreparedStatement pstmt;
         try {
             connection = new DBConnect();
-            String consulta = "UPDATE aeropuertos_publicos SET id_aeropuerto = ?,financiacion = ?,num_trabajadores = ? WHERE id_aeropuerto = ?";
+            String consulta = "UPDATE aeropuertos_publicos SET financiacion = ?,num_trabajadores = ? WHERE id_aeropuerto = ?";
             pstmt = connection.getConnection().prepareStatement(consulta);
-            pstmt.setInt(1, aeropuertoNuevo.getAeropuerto().getId());
-            pstmt.setDouble(2, aeropuertoNuevo.getFinanciacion());
-            pstmt.setInt(3, aeropuertoNuevo.getNum_trabajadores());
-            pstmt.setInt(4, aeropuerto.getAeropuerto().getId());
+            pstmt.setDouble(1, aeropuertoNuevo.getFinanciacion());
+            pstmt.setInt(2, aeropuertoNuevo.getNum_trabajadores());
+            pstmt.setInt(3, aeropuerto.getAeropuerto().getId());
             int filasAfectadas = pstmt.executeUpdate();
             System.out.println("Actualizada aeropuerto");
             pstmt.close();
             connection.closeConnection();
             return filasAfectadas > 0;
         } catch (SQLException e) {
+            System.out.println("hello");
             System.err.println(e.getMessage());
             return false;
         }
@@ -120,9 +120,9 @@ public class DaoAeropuertoPublico {
      * Metodo que CREA un nuevo un aeropuerto en la BD
      *
      * @param aeropuerto		Instancia del modelo aeropuerto con datos nuevos
-     * @return			id/-1
+     * @return			true/false
      */
-    public  static int insertar(AeropuertoPublico aeropuerto) {
+    public  static boolean insertar(AeropuertoPublico aeropuerto) {
         DBConnect connection;
         PreparedStatement pstmt;
 
@@ -130,8 +130,8 @@ public class DaoAeropuertoPublico {
             connection = new DBConnect();
             // INSERT INTO `DNI`.`dni` (`dni`) VALUES ('el nuevo');
 
-            String consulta = "INSERT INTO aeropuertos_publico (id_aeropuerto,financiacion,num_trabajadores) VALUES (?,?,?) ";
-            pstmt = connection.getConnection().prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
+            String consulta = "INSERT INTO aeropuertos_publicos (id_aeropuerto,financiacion,num_trabajadores) VALUES (?,?,?) ";
+            pstmt = connection.getConnection().prepareStatement(consulta);
 
             pstmt.setInt(1, aeropuerto.getAeropuerto().getId());
             pstmt.setDouble(2, aeropuerto.getFinanciacion());
@@ -141,22 +141,13 @@ public class DaoAeropuertoPublico {
             //if (pstmt != null)
 
             //if (connection != null)
-            System.out.println("Nueva entrada en  persona");
-            if (filasAfectadas > 0) {
-                ResultSet rs = pstmt.getGeneratedKeys();
-                if (rs.next()) {
-                    int id = rs.getInt(1);
-                    pstmt.close();
-                    connection.closeConnection();
-                    return id;
-                }
-            }
+            System.out.println("Nueva entrada en aeropuertos_publicos");
             pstmt.close();
             connection.closeConnection();
-            return -1;
+            return (filasAfectadas > 0);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-            return -1;
+            return false;
         }
     }
 

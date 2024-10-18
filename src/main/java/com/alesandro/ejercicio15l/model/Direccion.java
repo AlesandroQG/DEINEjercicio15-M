@@ -129,12 +129,11 @@ public class Direccion {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Direccion direccion = (Direccion) o;
-        return id == direccion.id;
+        return numero == direccion.numero && Objects.equals(pais, direccion.pais) && Objects.equals(ciudad, direccion.ciudad) && Objects.equals(calle, direccion.calle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hash(pais, ciudad, calle, numero);
     }
-
 }

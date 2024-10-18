@@ -1,24 +1,29 @@
 package com.alesandro.ejercicio15l.controller;
 
+import com.alesandro.ejercicio15l.dao.DaoAeropuerto;
+import com.alesandro.ejercicio15l.dao.DaoAeropuertoPrivado;
+import com.alesandro.ejercicio15l.dao.DaoAeropuertoPublico;
+import com.alesandro.ejercicio15l.dao.DaoDireccion;
 import com.alesandro.ejercicio15l.model.Aeropuerto;
+import com.alesandro.ejercicio15l.model.AeropuertoPrivado;
+import com.alesandro.ejercicio15l.model.AeropuertoPublico;
+import com.alesandro.ejercicio15l.model.Direccion;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
  * Clase que controla los eventos de la ventana datos de aeropuerto
  */
-public class DatosAeropuertoController extends GridPane implements Initializable {
-    private Aeropuerto aeropuerto;
-    private FXMLLoader fxmlLoader;
+public class DatosAeropuertoController implements Initializable {
+    private Object aeropuerto;
+    private Aeropuerto aeropuerto_obj;
 
     @FXML // fx:id="lblParam1"
     private Label lblParam1; // Value injected by FXMLLoader
@@ -35,8 +40,8 @@ public class DatosAeropuertoController extends GridPane implements Initializable
     @FXML // fx:id="rbTipo"
     private ToggleGroup rbTipo; // Value injected by FXMLLoader
 
-    @FXML // fx:id="txtAniioInauguracion"
-    private TextField txtAniioInauguracion; // Value injected by FXMLLoader
+    @FXML // fx:id="txtAnioInauguracion"
+    private TextField txtAnioInauguracion; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtCalle"
     private TextField txtCalle; // Value injected by FXMLLoader
@@ -62,32 +67,29 @@ public class DatosAeropuertoController extends GridPane implements Initializable
     @FXML // fx:id="txtParam2"
     private TextField txtParam2; // Value injected by FXMLLoader
 
-    public DatosAeropuertoController(Aeropuerto aeropuerto) {
+    /**
+     * Constructor que define el aeropuerto a editar (si aplicable)
+     *
+     * @param aeropuerto a editar
+     */
+    public DatosAeropuertoController(Object aeropuerto) {
         this.aeropuerto = aeropuerto;
-        fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/DatosAeropuerto.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
+    /**
+     * Constructor para añadir un nuevo aeropuerto
+     */
     public DatosAeropuertoController() {
         this.aeropuerto = null;
-        fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/DatosAeropuerto.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        try {
-            fxmlLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
-    public FXMLLoader getFxmlLoader() {
-        return fxmlLoader;
+    /**
+     * Setter para el aeropuerto a editar (si aplicable)
+     *
+     * @param aeropuerto a editar
+     */
+    public void setAeropuerto(Object aeropuerto) {
+        this.aeropuerto = aeropuerto;
     }
 
     /**
@@ -98,16 +100,311 @@ public class DatosAeropuertoController extends GridPane implements Initializable
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Listener RadioButtons
+        rbTipo.selectedToggleProperty().addListener(this::cambioTipo);
+        // Carga inicial
         if (aeropuerto == null) {
-            //
+            // Null -> Añadir Aeropuerto
+            System.out.println("Null");
+        } else {
+            // Not Null -> Editar Aeropuerto
+            System.out.println("Not Null");
+            Aeropuerto airport;
+            if (aeropuerto instanceof AeropuertoPublico) {
+                // Aeropuerto Público
+                AeropuertoPublico aeropuertoPublico = (AeropuertoPublico) aeropuerto;
+                airport = aeropuertoPublico.getAeropuerto();
+                txtParam1.setText(aeropuertoPublico.getFinanciacion() + "");
+                txtParam2.setText(aeropuertoPublico.getNum_trabajadores() + "");
+            } else {
+                // Aeropuerto Privado
+                AeropuertoPrivado aeropuertoPrivado = (AeropuertoPrivado) aeropuerto;
+                airport = aeropuertoPrivado.getAeropuerto();
+                rbTipo.selectToggle(rbPrivado);
+                txtParam1.setText(aeropuertoPrivado.getNumero_socios() + "");
+            }
+            this.aeropuerto_obj = airport;
+            rbPublico.setDisable(true);
+            rbPrivado.setDisable(true);
+            // Rellena datos aeropuerto
+            txtNombre.setText(airport.getNombre());
+            txtPais.setText(airport.getDireccion().getPais());
+            txtCiudad.setText(airport.getDireccion().getCiudad());
+            txtCalle.setText(airport.getDireccion().getCalle());
+            txtNumero.setText(airport.getDireccion().getNumero() + "");
+            txtAnioInauguracion.setText(airport.getAnio_inauguracion() + "");
+            txtCapacidad.setText(airport.getCapacidad() + "");
         }
     }
 
+    /**
+     * Función que se ejecuta cuando se pulsa el botón "Guardar". Válida y procesa los datos del aeropuerto
+     *
+     * @param event
+     */
     @FXML
     void guardar(ActionEvent event) {
-
+        String error = "";
+        if (txtNombre.getText().isEmpty()) {
+            error = "Campo nombre no puede estar vacío";
+        }
+        if (txtPais.getText().isEmpty()) {
+            if (!error.isEmpty()) {
+                error += "\n";
+            }
+            error += "Campo país no puede estar vacío";
+        }
+        if (txtCiudad.getText().isEmpty()) {
+            if (!error.isEmpty()) {
+                error += "\n";
+            }
+            error += "Campo ciudad no puede estar vacío";
+        }
+        if (txtCalle.getText().isEmpty()) {
+            if (!error.isEmpty()) {
+                error += "\n";
+            }
+            error += "Campo calle no puede estar vacío";
+        }
+        if (txtNumero.getText().isEmpty()) {
+            if (!error.isEmpty()) {
+                error += "\n";
+            }
+            error += "Campo número no puede estar vacío";
+        } else {
+            try {
+                int numero = Integer.parseInt(txtNumero.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                if (!error.isEmpty()) {
+                    error += "\n";
+                }
+                error += "Campo número tiene que ser numérico";
+            }
+        }
+        if (txtAnioInauguracion.getText().isEmpty()) {
+            if (!error.isEmpty()) {
+                error += "\n";
+            }
+            error += "Campo año de inauguración no puede estar vacío";
+        } else {
+            try {
+                int anio_inauguracion = Integer.parseInt(txtAnioInauguracion.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                if (!error.isEmpty()) {
+                    error += "\n";
+                }
+                error += "Campo año de inauguración tiene que ser numérico";
+            }
+        }
+        if (txtCapacidad.getText().isEmpty()) {
+            if (!error.isEmpty()) {
+                error += "\n";
+            }
+            error += "Campo capacidad no puede estar vacío";
+        } else {
+            try {
+                int capacidad = Integer.parseInt(txtCapacidad.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                if (!error.isEmpty()) {
+                    error += "\n";
+                }
+                error += "Campo capacidad tiene que ser numérico";
+            }
+        }
+        if (rbPublico.isSelected()) {
+            // Aeropuerto Público
+            if (txtParam1.getText().isEmpty()) {
+                if (!error.isEmpty()) {
+                    error += "\n";
+                }
+                error += "Campo financiación no puede estar vacío";
+            } else {
+                if (!txtParam1.getText().matches("^-?[0-9]+([\\.,][0-9]+)?$")) {
+                    if (!error.isEmpty()) {
+                        error += "\n";
+                    }
+                    error += "Campo financiación tiene que ser decimal";
+                }
+            }
+            if (txtParam2.getText().isEmpty()) {
+                if (!error.isEmpty()) {
+                    error += "\n";
+                }
+                error += "Campo número de trabajadores no puede estar vacío";
+            } else {
+                try {
+                    int capacidad = Integer.parseInt(txtParam2.getText());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    if (!error.isEmpty()) {
+                        error += "\n";
+                    }
+                    error += "Campo número de trabajadores tiene que ser numérico";
+                }
+            }
+        } else {
+            // Aeropuerto Privado
+            if (txtParam1.getText().isEmpty()) {
+                if (!error.isEmpty()) {
+                    error += "\n";
+                }
+                error += "Campo número de socios no puede estar vacío";
+            } else {
+                try {
+                    int capacidad = Integer.parseInt(txtParam1.getText());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    if (!error.isEmpty()) {
+                        error += "\n";
+                    }
+                    error += "Campo número de socios tiene que ser numérico";
+                }
+            }
+        }
+        // Fin verificación de datos
+        if (!error.isEmpty()) {
+            alerta(error);
+        } else {
+            // Correcto
+            boolean resultado;
+            if (this.aeropuerto == null) {
+                resultado = crearAeropuerto();
+            } else {
+                resultado = modificarAeropuerto();
+            }
+            if (resultado) {
+                Stage stage = (Stage)txtNombre.getScene().getWindow();
+                stage.close();
+            }
+        }
     }
 
+    /**
+     * FUnción que crea un aeropuerto nuevo en la base de datos
+     *
+     * @return true/false
+     */
+    public boolean crearAeropuerto() {
+        Direccion direccion = new Direccion();
+        direccion.setPais(txtPais.getText());
+        direccion.setCiudad(txtCiudad.getText());
+        direccion.setCalle(txtCalle.getText());
+        direccion.setNumero(Integer.parseInt(txtNumero.getText()));
+        int id_direccion = DaoDireccion.insertar(direccion);
+        if (id_direccion == -1) {
+            alerta("Ha habido un error almacenando los datos. Por favor vuelva a intentarlo");
+            return false;
+        } else {
+            direccion.setId(id_direccion);
+            Aeropuerto airport = new Aeropuerto();
+            airport.setNombre(txtNombre.getText());
+            airport.setDireccion(direccion);
+            airport.setAnio_inauguracion(Integer.parseInt(txtAnioInauguracion.getText()));
+            airport.setCapacidad(Integer.parseInt(txtCapacidad.getText()));
+            airport.setImagen(null);
+            int id_aeropuerto = DaoAeropuerto.insertar(airport);
+            if (id_aeropuerto == -1) {
+                alerta("Ha habido un error almacenando los datos. Por favor vuelva a intentarlo");
+                return false;
+            } else {
+                airport.setId(id_aeropuerto);
+                if (rbPublico.isSelected()) {
+                    // Aeropuerto Público
+                    AeropuertoPublico aeropuertoPublico = new AeropuertoPublico(airport,Double.parseDouble(txtParam1.getText()),Integer.parseInt(txtParam2.getText()));
+                    if (!DaoAeropuertoPublico.insertar(aeropuertoPublico)) {
+                        alerta("Ha habido un error almacenando los datos. Por favor vuelva a intentarlo");
+                        return false;
+                    }
+                } else {
+                    // Aeropuerto Privado
+                    AeropuertoPrivado aeropuertoPrivado = new AeropuertoPrivado(airport,Integer.parseInt(txtParam1.getText()));
+                    if (!DaoAeropuertoPrivado.insertar(aeropuertoPrivado)) {
+                        alerta("Ha habido un error almacenando los datos. Por favor vuelva a intentarlo");
+                        return false;
+                    }
+                }
+                confirmacion("Aeropuerto creado correctamente");
+                return true;
+            }
+        }
+    }
+
+    /**
+     * Función que modifica un aeropuerto en la base de datos
+     *
+     * @return true/false
+     */
+    public boolean modificarAeropuerto() {
+        Aeropuerto airport = new Aeropuerto();
+        Direccion direccion = new Direccion();
+        direccion.setId(aeropuerto_obj.getDireccion().getId());
+        direccion.setPais(txtPais.getText());
+        direccion.setCiudad(txtCiudad.getText());
+        direccion.setCalle(txtCalle.getText());
+        direccion.setNumero(Integer.parseInt(txtNumero.getText()));
+        if (!DaoDireccion.modificar(this.aeropuerto_obj.getDireccion(),direccion)) {
+            alerta("Ha habido un error almacenando los datos. Por favor vuelva a intentarlo");
+            return false;
+        } else {
+            airport.setDireccion(direccion);
+            airport.setNombre(txtNombre.getText());
+            airport.setAnio_inauguracion(Integer.parseInt(txtAnioInauguracion.getText()));
+            airport.setCapacidad(Integer.parseInt(txtCapacidad.getText()));
+            airport.setImagen(null);
+            if (!DaoAeropuerto.modificar(aeropuerto_obj,airport)) {
+                alerta("Ha habido un error almacenando los datos. Por favor vuelva a intentarlo");
+                return false;
+            } else {
+                if (this.aeropuerto instanceof AeropuertoPublico) {
+                    // Aeropuerto Público
+                    AeropuertoPublico aeropuertoPublico = (AeropuertoPublico) this.aeropuerto;
+                    AeropuertoPublico newAirport = new AeropuertoPublico(airport,Double.parseDouble(txtParam1.getText()),Integer.parseInt(txtParam2.getText()));
+                    if (!DaoAeropuertoPublico.modificar(aeropuertoPublico,newAirport)) {
+                        alerta("Ha habido un error almacenando los datos. Por favor vuelva a intentarlo");
+                        return false;
+                    }
+                } else {
+                    // Aeropuerto Privado
+                    AeropuertoPrivado aeropuertoPrivado = (AeropuertoPrivado) this.aeropuerto;
+                    AeropuertoPrivado newAirport = new AeropuertoPrivado(airport,Integer.parseInt(txtParam1.getText()));
+                    if (!DaoAeropuertoPrivado.modificar(aeropuertoPrivado,newAirport)) {
+                        alerta("Ha habido un error almacenando los datos. Por favor vuelva a intentarlo");
+                        return false;
+                    }
+                }
+                confirmacion("Aeropuerto actualizado correctamente");
+                return true;
+            }
+        }
+    }
+
+    /**
+     * Función que se ejecuta cuando se cambia los RadioButtons
+     *
+     * @param newBtn
+     */
+    public void cambioTipo(ObservableValue<? extends Toggle> observableValue, Toggle oldBtn, Toggle newBtn) {
+        if (newBtn.equals(rbPublico)) {
+            // Aeropuerto Público
+            lblParam1.setText("Financiación:");
+            lblParam2.setText("Número de trabajadores:");
+            txtParam2.setVisible(true);
+        } else {
+            // Aeropuerto Privado
+            lblParam1.setText("Número de socios:");
+            lblParam2.setText(null);
+            txtParam2.setVisible(false);
+        }
+    }
+
+    /**
+     * Función que se ejecuta cuando se pulsa el botón "Cancelar". Cierra la ventana
+     *
+     * @param event
+     */
     @FXML
     void cancelar(ActionEvent event) {
         Stage stage = (Stage)txtNombre.getScene().getWindow();

@@ -1,5 +1,7 @@
 package com.alesandro.ejercicio15l.model;
 
+import java.util.Objects;
+
 /**
  * Clase Aeropuerto Público
  */
@@ -80,4 +82,16 @@ public class AeropuertoPublico {
         this.num_trabajadores = num_trabajadores;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AeropuertoPublico that = (AeropuertoPublico) o;
+        return Objects.equals(aeropuerto, that.aeropuerto);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(aeropuerto);
+    }
 }

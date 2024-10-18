@@ -99,12 +99,11 @@ public class DaoAeropuertoPrivado {
             connection = new DBConnect();
             // UPDATE `DNI`.`PAISES` SET `pais` = 'BulgariaK' WHERE (`pais` = 'Bulgaria');
 
-            String consulta = "UPDATE aeropuertos_privados SET id_aeropuerto = ?,numero_socios = ? WHERE id_aeropuerto = ?";
+            String consulta = "UPDATE aeropuertos_privados SET numero_socios = ? WHERE id_aeropuerto = ?";
             pstmt = connection.getConnection().prepareStatement(consulta);
 
-            pstmt.setInt(1, aeropuertoNuevo.getAeropuerto().getId());
-            pstmt.setInt(2, aeropuertoNuevo.getNumero_socios());
-            pstmt.setInt(3, aeropuerto.getAeropuerto().getId());
+            pstmt.setInt(1, aeropuertoNuevo.getNumero_socios());
+            pstmt.setInt(2, aeropuerto.getAeropuerto().getId());
 
             int filasAfectadas = pstmt.executeUpdate();
 
@@ -124,9 +123,9 @@ public class DaoAeropuertoPrivado {
      * Metodo que CREA un nuevo aeropuerto privado en la BD
      *
      * @param aeropuerto		Instancia del modelo aeropuerto privado con datos nuevos
-     * @return			id/-1
+     * @return			true/false
      */
-    public static int insertar(AeropuertoPrivado aeropuerto) {
+    public static boolean insertar(AeropuertoPrivado aeropuerto) {
         DBConnect connection;
         PreparedStatement pstmt;
 
@@ -135,7 +134,7 @@ public class DaoAeropuertoPrivado {
             // INSERT INTO `DNI`.`dni` (`dni`) VALUES ('el nuevo');
 
             String consulta = "INSERT INTO aeropuertos_privados (id_aeropuerto,numero_socios) VALUES (?,?) ";
-            pstmt = connection.getConnection().prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
+            pstmt = connection.getConnection().prepareStatement(consulta);
 
             pstmt.setInt(1, aeropuerto.getAeropuerto().getId());
             pstmt.setInt(2, aeropuerto.getNumero_socios());
@@ -145,21 +144,12 @@ public class DaoAeropuertoPrivado {
 
             //if (connection != null)
             System.out.println("Nueva entrada en aeropuertos_privados");
-            if (filasAfectadas > 0) {
-                ResultSet rs = pstmt.getGeneratedKeys();
-                if (rs.next()) {
-                    int id = rs.getInt(1);
-                    pstmt.close();
-                    connection.closeConnection();
-                    return id;
-                }
-            }
             pstmt.close();
             connection.closeConnection();
-            return -1;
+            return (filasAfectadas > 0);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-            return -1;
+            return false;
         }
     }
 

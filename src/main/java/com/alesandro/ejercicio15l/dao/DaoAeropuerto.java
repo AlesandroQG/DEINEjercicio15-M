@@ -2,7 +2,6 @@ package com.alesandro.ejercicio15l.dao;
 
 import com.alesandro.ejercicio15l.db.DBConnect;
 import com.alesandro.ejercicio15l.model.Aeropuerto;
-import com.alesandro.ejercicio15l.model.AeropuertoPublico;
 import com.alesandro.ejercicio15l.model.Direccion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -93,7 +92,7 @@ public class DaoAeropuerto {
         PreparedStatement pstmt;
         try {
             connection = new DBConnect();
-            String consulta = "UPDATE aeropuerto SET nombre = ?,anio_inauguracion = ?,capacidad = ?,id_direccion = ?,imagen = ? WHERE id = ?";
+            String consulta = "UPDATE aeropuertos SET nombre = ?,anio_inauguracion = ?,capacidad = ?,id_direccion = ?,imagen = ? WHERE id = ?";
             pstmt = connection.getConnection().prepareStatement(consulta);
             pstmt.setString(1, aeropuertoNuevo.getNombre());
             pstmt.setInt(2, aeropuertoNuevo.getAnio_inauguracion());

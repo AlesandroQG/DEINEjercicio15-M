@@ -53,7 +53,7 @@ public class DaoDireccion {
         PreparedStatement pstmt;
         try {
             connection = new DBConnect();
-            String consulta = "UPDATE direcciones SET pais = ?,ciudad = ?,calle = ?,numero ?= ? WHERE id = ?";
+            String consulta = "UPDATE direcciones SET pais = ?,ciudad = ?,calle = ?,numero = ? WHERE id = ?";
             pstmt = connection.getConnection().prepareStatement(consulta);
             pstmt.setString(1, direccionNueva.getPais());
             pstmt.setString(2, direccionNueva.getCalle());
