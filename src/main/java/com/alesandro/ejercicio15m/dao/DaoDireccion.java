@@ -1,7 +1,7 @@
-package com.alesandro.ejercicio15l.dao;
+package com.alesandro.ejercicio15m.dao;
 
-import com.alesandro.ejercicio15l.db.DBConnect;
-import com.alesandro.ejercicio15l.model.Direccion;
+import com.alesandro.ejercicio15m.db.DBConnect;
+import com.alesandro.ejercicio15m.model.Direccion;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

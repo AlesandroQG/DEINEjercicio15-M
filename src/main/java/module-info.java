@@ -1,4 +1,4 @@
-module com.alesandro.ejercicio15l {
+module com.alesandro.ejercicio15m {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
@@ -6,10 +6,10 @@ module com.alesandro.ejercicio15l {
     requires org.checkerframework.checker.qual;
 
 
-    opens com.alesandro.ejercicio15l to javafx.fxml;
-    exports com.alesandro.ejercicio15l;
-    exports com.alesandro.ejercicio15l.controller;
-    opens com.alesandro.ejercicio15l.controller to javafx.fxml;
-    exports com.alesandro.ejercicio15l.model;
-    exports com.alesandro.ejercicio15l.dao;
+    opens com.alesandro.ejercicio15m to javafx.fxml;
+    exports com.alesandro.ejercicio15m;
+    exports com.alesandro.ejercicio15m.controller;
+    opens com.alesandro.ejercicio15m.controller to javafx.fxml;
+    exports com.alesandro.ejercicio15m.model;
+    exports com.alesandro.ejercicio15m.dao;
 }

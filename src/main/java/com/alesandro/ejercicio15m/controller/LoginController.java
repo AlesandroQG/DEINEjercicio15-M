@@ -1,7 +1,7 @@
-package com.alesandro.ejercicio15l.controller;
+package com.alesandro.ejercicio15m.controller;
 
-import com.alesandro.ejercicio15l.dao.DaoUsuario;
-import com.alesandro.ejercicio15l.model.Usuario;
+import com.alesandro.ejercicio15m.dao.DaoUsuario;
+import com.alesandro.ejercicio15m.model.Usuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

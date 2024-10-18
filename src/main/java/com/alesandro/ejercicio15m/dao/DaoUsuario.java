@@ -1,12 +1,12 @@
-package com.alesandro.ejercicio15l.dao;
+package com.alesandro.ejercicio15m.dao;
 
-import com.alesandro.ejercicio15l.db.DBConnect;
+import com.alesandro.ejercicio15m.db.DBConnect;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.alesandro.ejercicio15l.model.Usuario;
+import com.alesandro.ejercicio15m.model.Usuario;
 
 /**
  * Clase donde se ejecuta las consultas para la tabla Usuarios

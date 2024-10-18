@@ -1,9 +1,9 @@
-package com.alesandro.ejercicio15l.dao;
+package com.alesandro.ejercicio15m.dao;
 
-import com.alesandro.ejercicio15l.db.DBConnect;
-import com.alesandro.ejercicio15l.model.Aeropuerto;
-import com.alesandro.ejercicio15l.model.AeropuertoPrivado;
-import com.alesandro.ejercicio15l.model.Direccion;
+import com.alesandro.ejercicio15m.db.DBConnect;
+import com.alesandro.ejercicio15m.model.Aeropuerto;
+import com.alesandro.ejercicio15m.model.AeropuertoPublico;
+import com.alesandro.ejercicio15m.model.Direccion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -13,21 +13,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Clase donde se ejecuta las consultas para la tabla Aeropuertos Privados
+ * Clase donde se ejecuta las consultas para la tabla Aeropuertos Públicos
  */
-public class DaoAeropuertoPrivado {
+public class DaoAeropuertoPublico {
     /**
-     * Metodo que busca un aeropuerto privado por medio de su id
+     * Metodo que busca un aeropuerto público por medio de su id
      *
      * @param id id del aeropuerto a buscar
-     * @return aeropuerto privado o null
+     * @return aeropuerto público o null
      */
-    public static AeropuertoPrivado getAeropuerto(int id) {
+    public static AeropuertoPublico getAeropuerto(int id) {
         DBConnect connection;
-        AeropuertoPrivado aeropuerto = null;
+        AeropuertoPublico aeropuerto = null;
         try {
             connection = new DBConnect();
-            String consulta = "SELECT id,nombre,anio_inauguracion,capacidad,id_direccion,imagen,numero_socios FROM aeropuertos,aeropuertos_privados WHERE id=id_aeropuerto AND id = ?";
+            String consulta = "SELECT id,nombre,anio_inauguracion,capacidad,id_direccion,imagen,financiacion,num_trabajadores FROM aeropuertos,aeropuertos_publicos WHERE id=id_aeropuerto AND id = ?";
             PreparedStatement pstmt = connection.getConnection().prepareStatement(consulta);
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
@@ -39,9 +39,10 @@ public class DaoAeropuertoPrivado {
                 int id_direccion = rs.getInt("id_direccion");
                 Direccion direccion = DaoDireccion.getDireccion(id_direccion);
                 Blob imagen = rs.getBlob("imagen");
-                Aeropuerto airport = new Aeropuerto(id,nombre,anio_inauguracion,capacidad,direccion,imagen);
-                int numero_socios = rs.getInt("numero_socios");
-                aeropuerto = new AeropuertoPrivado(airport,numero_socios);
+                Aeropuerto airport = new Aeropuerto(id_aeropuerto,nombre,anio_inauguracion,capacidad,direccion,imagen);
+                double financiacion = rs.getDouble("financiacion");
+                int num_trabajadores = rs.getInt("num_trabajadores");
+                aeropuerto = new AeropuertoPublico(airport,financiacion,num_trabajadores);
             }
             rs.close();
             connection.closeConnection();
@@ -52,16 +53,16 @@ public class DaoAeropuertoPrivado {
     }
 
     /**
-     * Metodo que carga los datos de la tabla AeropuertoPrivado y los devuelve para usarlos en un listado de aeropuertos
+     * Metodo que carga los datos de la tabla AeropuertoPublico y los devuelve para usarlos en un listado de aeropuertos
      *
-     * @return listado de aeropuertos privados para cargar en un tableview
+     * @return listado de aeropuertos públicos para cargar en un tableview
      */
-    public static ObservableList<AeropuertoPrivado> cargarListado() {
+    public static ObservableList<AeropuertoPublico> cargarListado() {
         DBConnect connection;
-        ObservableList<AeropuertoPrivado> airportList = FXCollections.observableArrayList();
+        ObservableList<AeropuertoPublico> airportList = FXCollections.observableArrayList();
         try{
             connection = new DBConnect();
-            String consulta = "SELECT id,nombre,anio_inauguracion,capacidad,id_direccion,imagen,numero_socios FROM aeropuertos,aeropuertos_privados WHERE id=id_aeropuerto";
+            String consulta = "SELECT id,nombre,anio_inauguracion,capacidad,id_direccion,imagen,financiacion,num_trabajadores FROM aeropuertos,aeropuertos_publicos WHERE id=id_aeropuerto";
             PreparedStatement pstmt = connection.getConnection().prepareStatement(consulta);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -73,8 +74,9 @@ public class DaoAeropuertoPrivado {
                 Direccion direccion = DaoDireccion.getDireccion(id_direccion);
                 Blob imagen = rs.getBlob("imagen");
                 Aeropuerto aeropuerto = new Aeropuerto(id,nombre,anio_inauguracion,capacidad,direccion,imagen);
-                int numero_socios = rs.getInt("numero_socios");
-                AeropuertoPrivado airport = new AeropuertoPrivado(aeropuerto,numero_socios);
+                double financiacion = rs.getDouble("financiacion");
+                int num_trabajadores = rs.getInt("num_trabajadores");
+                AeropuertoPublico airport = new AeropuertoPublico(aeropuerto,financiacion,num_trabajadores);
                 airportList.add(airport);
             }
             rs.close();
@@ -86,46 +88,41 @@ public class DaoAeropuertoPrivado {
     }
 
     /**
-     * Metodo que modifica los datos de una persona en la BD
+     * Metodo que modifica los datos de un aeropuerto en la BD
      *
-     * @param aeropuerto		Instancia de aeropuerto con datos nuevos
-     * @param aeropuertoNuevo Nuevos datos de aeropuerto a modificar
+     * @param aeropuerto		Instancia del aeropuerto con datos nuevos
+     * @param aeropuertoNuevo Nuevos datos del aeropuerto a modificar
      * @return			true/false
      */
-    public static boolean modificar(AeropuertoPrivado aeropuerto, AeropuertoPrivado aeropuertoNuevo) {
+    public static boolean modificar(AeropuertoPublico aeropuerto, AeropuertoPublico aeropuertoNuevo) {
         DBConnect connection;
         PreparedStatement pstmt;
         try {
             connection = new DBConnect();
-            // UPDATE `DNI`.`PAISES` SET `pais` = 'BulgariaK' WHERE (`pais` = 'Bulgaria');
-
-            String consulta = "UPDATE aeropuertos_privados SET numero_socios = ? WHERE id_aeropuerto = ?";
+            String consulta = "UPDATE aeropuertos_publicos SET financiacion = ?,num_trabajadores = ? WHERE id_aeropuerto = ?";
             pstmt = connection.getConnection().prepareStatement(consulta);
-
-            pstmt.setInt(1, aeropuertoNuevo.getNumero_socios());
-            pstmt.setInt(2, aeropuerto.getAeropuerto().getId());
-
+            pstmt.setDouble(1, aeropuertoNuevo.getFinanciacion());
+            pstmt.setInt(2, aeropuertoNuevo.getNum_trabajadores());
+            pstmt.setInt(3, aeropuerto.getAeropuerto().getId());
             int filasAfectadas = pstmt.executeUpdate();
-
-            System.out.println("Actualizado aeropuerto");
-            //if (pstmt != null)
+            System.out.println("Actualizada aeropuerto");
             pstmt.close();
-            //if (connection != null)
             connection.closeConnection();
             return filasAfectadas > 0;
         } catch (SQLException e) {
+            System.out.println("hello");
             System.err.println(e.getMessage());
             return false;
         }
     }
 
     /**
-     * Metodo que CREA un nuevo aeropuerto privado en la BD
+     * Metodo que CREA un nuevo un aeropuerto en la BD
      *
-     * @param aeropuerto		Instancia del modelo aeropuerto privado con datos nuevos
+     * @param aeropuerto		Instancia del modelo aeropuerto con datos nuevos
      * @return			true/false
      */
-    public static boolean insertar(AeropuertoPrivado aeropuerto) {
+    public  static boolean insertar(AeropuertoPublico aeropuerto) {
         DBConnect connection;
         PreparedStatement pstmt;
 
@@ -133,17 +130,18 @@ public class DaoAeropuertoPrivado {
             connection = new DBConnect();
             // INSERT INTO `DNI`.`dni` (`dni`) VALUES ('el nuevo');
 
-            String consulta = "INSERT INTO aeropuertos_privados (id_aeropuerto,numero_socios) VALUES (?,?) ";
+            String consulta = "INSERT INTO aeropuertos_publicos (id_aeropuerto,financiacion,num_trabajadores) VALUES (?,?,?) ";
             pstmt = connection.getConnection().prepareStatement(consulta);
 
             pstmt.setInt(1, aeropuerto.getAeropuerto().getId());
-            pstmt.setInt(2, aeropuerto.getNumero_socios());
+            pstmt.setDouble(2, aeropuerto.getFinanciacion());
+            pstmt.setInt(3, aeropuerto.getNum_trabajadores());
 
             int filasAfectadas = pstmt.executeUpdate();
             //if (pstmt != null)
 
             //if (connection != null)
-            System.out.println("Nueva entrada en aeropuertos_privados");
+            System.out.println("Nueva entrada en aeropuertos_publicos");
             pstmt.close();
             connection.closeConnection();
             return (filasAfectadas > 0);
@@ -154,19 +152,17 @@ public class DaoAeropuertoPrivado {
     }
 
     /**
-     * Elimina una persona en función del modelo AeropuertoPrivado que le hayamos pasado
+     * Elimina un aeropuerto en función del modelo AeropuertoPublico que le hayamos pasado
      *
-     * @param aeropuerto AeropuertoPrivado a eliminar
+     * @param aeropuerto aeropuerto a eliminar
      * @return a boolean
      */
-    public  static boolean eliminar(AeropuertoPrivado aeropuerto){
-
+    public  static boolean eliminar(AeropuertoPublico aeropuerto){
         DBConnect connection;
         PreparedStatement pstmt;
         try {
             connection = new DBConnect();
-            //DELETE FROM `DNI`.`dni` WHERE (`dni` = 'asdasd');
-            String consulta = "DELETE FROM aeropuertos_privados WHERE (id_aeropuerto = ?)";
+            String consulta = "DELETE FROM aeropuertos_publicos WHERE id_aeropuerto = ?";
             pstmt = connection.getConnection().prepareStatement(consulta);
             pstmt.setInt(1, aeropuerto.getAeropuerto().getId());
             int filasAfectadas = pstmt.executeUpdate();

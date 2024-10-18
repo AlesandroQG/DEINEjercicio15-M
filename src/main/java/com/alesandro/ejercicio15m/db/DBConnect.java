@@ -1,6 +1,4 @@
-package com.alesandro.ejercicio15l.db;
-
-import com.sun.security.auth.login.ConfigFile;
+package com.alesandro.ejercicio15m.db;
 
 import java.io.*;
 import java.sql.Connection;

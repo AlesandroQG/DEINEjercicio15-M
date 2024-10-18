@@ -1,9 +1,9 @@
-package com.alesandro.ejercicio15l.controller;
+package com.alesandro.ejercicio15m.controller;
 
-import com.alesandro.ejercicio15l.dao.DaoAeropuerto;
-import com.alesandro.ejercicio15l.dao.DaoAvion;
-import com.alesandro.ejercicio15l.model.Aeropuerto;
-import com.alesandro.ejercicio15l.model.Avion;
+import com.alesandro.ejercicio15m.dao.DaoAeropuerto;
+import com.alesandro.ejercicio15m.dao.DaoAvion;
+import com.alesandro.ejercicio15m.model.Aeropuerto;
+import com.alesandro.ejercicio15m.model.Avion;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -12,31 +12,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Clase que controla los eventos de la ventana de activar o desactivar aviones
+ * Clase que controla los eventos de la ventana de borrar aviones
  */
-public class ActivarDesactivarAvionController implements Initializable {
+public class BorrarAvionController implements Initializable {
     @FXML // fx:id="cbAeropuerto"
     private ComboBox<Aeropuerto> cbAeropuerto; // Value injected by FXMLLoader
 
     @FXML // fx:id="cbAvion"
     private ComboBox<Avion> cbAvion; // Value injected by FXMLLoader
-
-    @FXML // fx:id="rbActivado"
-    private RadioButton rbActivado; // Value injected by FXMLLoader
-
-    @FXML // fx:id="rbDesactivado"
-    private RadioButton rbDesactivado; // Value injected by FXMLLoader
-
-    @FXML // fx:id="rbGroup"
-    private ToggleGroup rbGroup; // Value injected by FXMLLoader
 
     /**
      * Función que se ejecuta cuando se carga la ventana
@@ -46,6 +35,7 @@ public class ActivarDesactivarAvionController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Aeropuertos
         ObservableList<Aeropuerto> aeropuertos = DaoAeropuerto.cargarListado();
         cbAeropuerto.setItems(aeropuertos);
         cbAeropuerto.getSelectionModel().select(0);
@@ -56,12 +46,6 @@ public class ActivarDesactivarAvionController implements Initializable {
             }
         });
         cambioAeropuerto(cbAeropuerto.getSelectionModel().getSelectedItem());
-        cbAvion.valueProperty().addListener(new ChangeListener<Avion>() {
-            @Override
-            public void changed(ObservableValue<? extends Avion> observableValue, Avion oldValue, Avion newValue) {
-                cambioAvion(newValue);
-            }
-        });
     }
 
     /**
@@ -78,24 +62,6 @@ public class ActivarDesactivarAvionController implements Initializable {
     }
 
     /**
-     * Función que cambia el estado de los radiobuttons cuando un avión es seleccionado
-     *
-     * @param avion nuevo avión seleccionado
-     */
-    public void cambioAvion(Avion avion) {
-        if (avion != null) {
-            boolean activado = avion.isActivado();
-            if (activado) {
-                rbActivado.setSelected(true);
-                rbDesactivado.setSelected(false);
-            } else {
-                rbActivado.setSelected(false);
-                rbDesactivado.setSelected(true);
-            }
-        }
-    }
-
-    /**
      * Función que se ejecuta cuando se pulsa el botón "Cancelar". Cierra la ventana
      *
      * @param event
@@ -107,22 +73,20 @@ public class ActivarDesactivarAvionController implements Initializable {
     }
 
     /**
-     * Función que se ejecuta cuando se pulsa el botón "Guardar". Actualizada el avión
+     * Función que se ejecuta cuando se pulsa el botón "Guardar". Elimina el avión
      *
      * @param event
      */
     @FXML
     void guardar(ActionEvent event) {
-        boolean activado = rbActivado.isSelected();
         Avion avion = cbAvion.getSelectionModel().getSelectedItem();
-        Avion avionNuevo = new Avion(avion.getId(),avion.getModelo(),avion.getNumero_asientos(),avion.getVelocidad_maxima(),activado,avion.getAeropuerto());
-        boolean resultado = DaoAvion.modificar(avion, avionNuevo);
+        boolean resultado = DaoAvion.eliminar(avion);
         if (resultado) {
-            confirmacion("Avión modificado correctamente");
+            confirmacion("Avión eliminado correctamente");
             Stage stage = (Stage)cbAeropuerto.getScene().getWindow();
             stage.close();
         } else {
-            alerta("Ha habido un error actualizando el avión. Por favor intentalo de nuevo");
+            alerta("Ha habido un error eliminado el avión. Por favor inténtelo de nuevo");
         }
     }
 
