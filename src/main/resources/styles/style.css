@@ -1,0 +1,7 @@
+
+.button {
+    -fx-background-color: orange;
+}
+.text-field:active {
+    -fx-border-color: orange;
+}

@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -20,6 +21,7 @@ import com.alesandro.ejercicio15m.model.*;
 import com.alesandro.ejercicio15m.dao.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -63,7 +65,8 @@ public class AeropuertosController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Listener
+        // Listeners
+        // Cambio RadioButtons
         tabla.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<? extends Object> observableValue, Object oldValue, Object newValue) {
@@ -73,6 +76,53 @@ public class AeropuertosController implements Initializable {
                     deshabilitarMenus(true);
                 }
             }
+        });
+        // Doble-click aeropuerto
+        tabla.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+                Object airport = tabla.getSelectionModel().getSelectedItem();
+                if (airport != null) {
+                    try {
+                        Window ventana = rbPrivados.getScene().getWindow();
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/DatosAeropuerto.fxml"));
+                        DatosAeropuertoController controlador = new DatosAeropuertoController(airport);
+                        fxmlLoader.setController(controlador);
+                        Scene scene = new Scene(fxmlLoader.load());
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.getIcons().add(new Image(getClass().getResourceAsStream("/imagenes/avion.png")));
+                        stage.setTitle("AVIONES - EDITAR AEROPUERTO");
+                        stage.initOwner(ventana);
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.showAndWait();
+                        if (rbPublicos.isSelected()) {
+                            cargarPublicos();
+                        } else {
+                            cargarPrivados();
+                        }
+                    } catch (IOException e) {
+                        System.err.println(e.getMessage());
+                        alerta("Error abriendo ventana, por favor inténtelo de nuevo");
+                    }
+                }
+            }
+        });
+        // Context Menu
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem editarItem = new MenuItem("Editar Aeropuerto");
+        MenuItem borrarItem = new MenuItem("Borrar Aeropuerto");
+        contextMenu.getItems().addAll(editarItem,borrarItem);
+        editarItem.setOnAction(this::editarAeropuerto);
+        borrarItem.setOnAction(this::borrarAeropuerto);
+        tabla.setRowFactory(tv -> {
+            TableRow<Object> row = new TableRow<>();
+            row.setOnContextMenuRequested(event -> {
+                if (!row.isEmpty()) {
+                    tabla.getSelectionModel().select(row.getItem());
+                    contextMenu.show(row, event.getScreenX(), event.getScreenY());
+                }
+            });
+            return row;
         });
         // Carga inicial
         cargarPublicos();
@@ -388,7 +438,7 @@ public class AeropuertosController implements Initializable {
         colAnio.setCellValueFactory(cellData -> javafx.beans.binding.Bindings.createObjectBinding(() -> cellData.getValue().getAeropuerto().getAnio_inauguracion()));
         TableColumn<AeropuertoPublico, Integer> colCapacidad = new TableColumn<>("Capacidad");
         colCapacidad.setCellValueFactory(cellData -> javafx.beans.binding.Bindings.createObjectBinding(() -> cellData.getValue().getAeropuerto().getCapacidad()));
-        TableColumn<AeropuertoPublico, Integer> colFinanciacion = new TableColumn<>("Financiación");
+        TableColumn<AeropuertoPublico, BigDecimal> colFinanciacion = new TableColumn<>("Financiación");
         colFinanciacion.setCellValueFactory(new PropertyValueFactory("financiacion"));
         TableColumn<AeropuertoPublico, Integer> colTrabajadores = new TableColumn<>("Nº Trabajadores");
         colTrabajadores.setCellValueFactory(new PropertyValueFactory("num_trabajadores"));

@@ -39,6 +39,12 @@ public class AniadirAvionController implements Initializable {
     @FXML // fx:id="txtVelMax"
     private TextField txtVelMax; // Value injected by FXMLLoader
 
+    @FXML // fx:id="btnGuardar"
+    private Button btnGuardar; // Value injected by FXMLLoader
+
+    @FXML // fx:id="btnCancelar"
+    private Button btnCancelar; // Value injected by FXMLLoader
+
     /**
      * Función que se ejecuta cuando se carga la ventana
      *
@@ -47,6 +53,8 @@ public class AniadirAvionController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        btnGuardar.setDefaultButton(true);
+        btnCancelar.setCancelButton(true);
         ObservableList<Aeropuerto> aeropuertos = DaoAeropuerto.cargarListado();
         cbAeropuerto.setItems(aeropuertos);
         cbAeropuerto.getSelectionModel().select(0);

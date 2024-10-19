@@ -5,22 +5,43 @@ import com.alesandro.ejercicio15m.model.Usuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * Clase que controla los eventos de la ventana login
  */
-public class LoginController {
+public class LoginController implements Initializable {
     @FXML // fx:id="txtPassword"
     private TextField txtPassword; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtUsuario"
     private TextField txtUsuario; // Value injected by FXMLLoader
+
+    @FXML // fx:id="btnLogin"
+    private Button btnLogin; // Value injected by FXMLLoader
+
+    /**
+     * Función que se ejecuta cuando se carga la ventana
+     *
+     * @param url
+     * @param resourceBundle
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        btnLogin.setDefaultButton(true);
+        // TODO: Remove this
+        txtUsuario.setText("admin");
+        txtPassword.setText("admin");
+    }
 
     /**
      * Función que se ejecuta cuando se pulsa el botón "Login". Válida los datos y carga la ventana de aeropuertos

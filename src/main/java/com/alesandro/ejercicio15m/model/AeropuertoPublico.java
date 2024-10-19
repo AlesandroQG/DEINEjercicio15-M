@@ -1,5 +1,6 @@
 package com.alesandro.ejercicio15m.model;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Objects;
  */
 public class AeropuertoPublico {
     private Aeropuerto aeropuerto;
-    private double financiacion;
+    private BigDecimal financiacion;
     private int num_trabajadores;
 
     /**
@@ -17,7 +18,7 @@ public class AeropuertoPublico {
      * @param financiacion del aeropuerto
      * @param num_trabajadores del aeropuerto
      */
-    public AeropuertoPublico(Aeropuerto aeropuerto, double financiacion, int num_trabajadores) {
+    public AeropuertoPublico(Aeropuerto aeropuerto, BigDecimal financiacion, int num_trabajadores) {
         this.aeropuerto = aeropuerto;
         this.financiacion = financiacion;
         this.num_trabajadores = num_trabajadores;
@@ -51,7 +52,7 @@ public class AeropuertoPublico {
      *
      * @return financiación del aeropuerto
      */
-    public double getFinanciacion() {
+    public BigDecimal getFinanciacion() {
         return financiacion;
     }
 
@@ -60,7 +61,7 @@ public class AeropuertoPublico {
      *
      * @param financiacion nueva financiación del aeropuerto
      */
-    public void setFinanciacion(double financiacion) {
+    public void setFinanciacion(BigDecimal financiacion) {
         this.financiacion = financiacion;
     }
 

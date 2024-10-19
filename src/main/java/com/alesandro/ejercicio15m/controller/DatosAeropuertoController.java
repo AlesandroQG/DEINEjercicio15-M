@@ -13,8 +13,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -24,6 +32,7 @@ import java.util.ResourceBundle;
 public class DatosAeropuertoController implements Initializable {
     private Object aeropuerto;
     private Aeropuerto aeropuerto_obj;
+    private InputStream imagenAeropuerto;
 
     @FXML // fx:id="lblParam1"
     private Label lblParam1; // Value injected by FXMLLoader
@@ -67,6 +76,15 @@ public class DatosAeropuertoController implements Initializable {
     @FXML // fx:id="txtParam2"
     private TextField txtParam2; // Value injected by FXMLLoader
 
+    @FXML // fx:id="imagenView"
+    private ImageView imagenView; // Value injected by FXMLLoader
+
+    @FXML // fx:id="btnGuardar"
+    private Button btnGuardar; // Value injected by FXMLLoader
+
+    @FXML // fx:id="btnCancelar"
+    private Button btnCancelar; // Value injected by FXMLLoader
+
     /**
      * Constructor que define el aeropuerto a editar (si aplicable)
      *
@@ -100,6 +118,9 @@ public class DatosAeropuertoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        btnGuardar.setDefaultButton(true);
+        btnCancelar.setCancelButton(true);
+        this.imagenAeropuerto = null;
         // Listener RadioButtons
         rbTipo.selectedToggleProperty().addListener(this::cambioTipo);
         // Carga inicial
@@ -134,6 +155,30 @@ public class DatosAeropuertoController implements Initializable {
             txtNumero.setText(airport.getDireccion().getNumero() + "");
             txtAnioInauguracion.setText(airport.getAnio_inauguracion() + "");
             txtCapacidad.setText(airport.getCapacidad() + "");
+            if (airport.getImagen() != null) {
+                System.out.println("imagen exists");
+                this.imagenAeropuerto = airport.getImagen();
+                imagenView.setImage(new Image(airport.getImagen()));
+            }
+        }
+    }
+
+    /**
+     * Función que se ejecuta cuando se pulsa el botón "Seleccionar". Abre un FileChooser para seleccionar una imagen
+     *
+     * @param event
+     */
+    @FXML
+    void seleccionarImagen(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Selecciona una imagen de aeropuerto");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files","*.jpg","*.png"));
+        File file = fileChooser.showOpenDialog(null);
+        try {
+            this.imagenAeropuerto = new FileInputStream(file);
+            imagenView.setImage(new Image(this.imagenAeropuerto));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -304,7 +349,7 @@ public class DatosAeropuertoController implements Initializable {
             airport.setDireccion(direccion);
             airport.setAnio_inauguracion(Integer.parseInt(txtAnioInauguracion.getText()));
             airport.setCapacidad(Integer.parseInt(txtCapacidad.getText()));
-            airport.setImagen(null);
+            airport.setImagen(imagenAeropuerto);
             int id_aeropuerto = DaoAeropuerto.insertar(airport);
             if (id_aeropuerto == -1) {
                 alerta("Ha habido un error almacenando los datos. Por favor vuelva a intentarlo");
@@ -313,7 +358,7 @@ public class DatosAeropuertoController implements Initializable {
                 airport.setId(id_aeropuerto);
                 if (rbPublico.isSelected()) {
                     // Aeropuerto Público
-                    AeropuertoPublico aeropuertoPublico = new AeropuertoPublico(airport,Double.parseDouble(txtParam1.getText()),Integer.parseInt(txtParam2.getText()));
+                    AeropuertoPublico aeropuertoPublico = new AeropuertoPublico(airport,new BigDecimal(txtParam1.getText()),Integer.parseInt(txtParam2.getText()));
                     if (!DaoAeropuertoPublico.insertar(aeropuertoPublico)) {
                         alerta("Ha habido un error almacenando los datos. Por favor vuelva a intentarlo");
                         return false;
@@ -353,7 +398,7 @@ public class DatosAeropuertoController implements Initializable {
             airport.setNombre(txtNombre.getText());
             airport.setAnio_inauguracion(Integer.parseInt(txtAnioInauguracion.getText()));
             airport.setCapacidad(Integer.parseInt(txtCapacidad.getText()));
-            airport.setImagen(null);
+            airport.setImagen(imagenAeropuerto);
             if (!DaoAeropuerto.modificar(aeropuerto_obj,airport)) {
                 alerta("Ha habido un error almacenando los datos. Por favor vuelva a intentarlo");
                 return false;
@@ -361,7 +406,7 @@ public class DatosAeropuertoController implements Initializable {
                 if (this.aeropuerto instanceof AeropuertoPublico) {
                     // Aeropuerto Público
                     AeropuertoPublico aeropuertoPublico = (AeropuertoPublico) this.aeropuerto;
-                    AeropuertoPublico newAirport = new AeropuertoPublico(airport,Double.parseDouble(txtParam1.getText()),Integer.parseInt(txtParam2.getText()));
+                    AeropuertoPublico newAirport = new AeropuertoPublico(airport,new BigDecimal(txtParam1.getText()),Integer.parseInt(txtParam2.getText()));
                     if (!DaoAeropuertoPublico.modificar(aeropuertoPublico,newAirport)) {
                         alerta("Ha habido un error almacenando los datos. Por favor vuelva a intentarlo");
                         return false;

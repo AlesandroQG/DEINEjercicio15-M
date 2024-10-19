@@ -8,7 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.InputStream;
-import java.sql.Blob;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,9 +39,9 @@ public class DaoAeropuertoPublico {
                 int capacidad = rs.getInt("capacidad");
                 int id_direccion = rs.getInt("id_direccion");
                 Direccion direccion = DaoDireccion.getDireccion(id_direccion);
-                InputStream imagen = rs.getBlob("imagen");
+                InputStream imagen = rs.getBinaryStream("imagen");
                 Aeropuerto airport = new Aeropuerto(id_aeropuerto,nombre,anio_inauguracion,capacidad,direccion,imagen);
-                double financiacion = rs.getDouble("financiacion");
+                BigDecimal financiacion = rs.getBigDecimal("financiacion");
                 int num_trabajadores = rs.getInt("num_trabajadores");
                 aeropuerto = new AeropuertoPublico(airport,financiacion,num_trabajadores);
             }
@@ -73,9 +73,9 @@ public class DaoAeropuertoPublico {
                 int capacidad = rs.getInt("capacidad");
                 int id_direccion = rs.getInt("id_direccion");
                 Direccion direccion = DaoDireccion.getDireccion(id_direccion);
-                InputStream imagen = rs.getBlob("imagen");
+                InputStream imagen = rs.getBinaryStream("imagen");
                 Aeropuerto aeropuerto = new Aeropuerto(id,nombre,anio_inauguracion,capacidad,direccion,imagen);
-                double financiacion = rs.getDouble("financiacion");
+                BigDecimal financiacion = rs.getBigDecimal("financiacion");
                 int num_trabajadores = rs.getInt("num_trabajadores");
                 AeropuertoPublico airport = new AeropuertoPublico(aeropuerto,financiacion,num_trabajadores);
                 airportList.add(airport);
@@ -102,7 +102,7 @@ public class DaoAeropuertoPublico {
             connection = new DBConnect();
             String consulta = "UPDATE aeropuertos_publicos SET financiacion = ?,num_trabajadores = ? WHERE id_aeropuerto = ?";
             pstmt = connection.getConnection().prepareStatement(consulta);
-            pstmt.setDouble(1, aeropuertoNuevo.getFinanciacion());
+            pstmt.setBigDecimal(1, aeropuertoNuevo.getFinanciacion());
             pstmt.setInt(2, aeropuertoNuevo.getNum_trabajadores());
             pstmt.setInt(3, aeropuerto.getAeropuerto().getId());
             int filasAfectadas = pstmt.executeUpdate();
@@ -135,7 +135,7 @@ public class DaoAeropuertoPublico {
             pstmt = connection.getConnection().prepareStatement(consulta);
 
             pstmt.setInt(1, aeropuerto.getAeropuerto().getId());
-            pstmt.setDouble(2, aeropuerto.getFinanciacion());
+            pstmt.setBigDecimal(2, aeropuerto.getFinanciacion());
             pstmt.setInt(3, aeropuerto.getNum_trabajadores());
 
             int filasAfectadas = pstmt.executeUpdate();

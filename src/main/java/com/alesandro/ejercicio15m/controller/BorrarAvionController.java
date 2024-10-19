@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
@@ -27,6 +28,12 @@ public class BorrarAvionController implements Initializable {
     @FXML // fx:id="cbAvion"
     private ComboBox<Avion> cbAvion; // Value injected by FXMLLoader
 
+    @FXML // fx:id="btnGuardar"
+    private Button btnGuardar; // Value injected by FXMLLoader
+
+    @FXML // fx:id="btnCancelar"
+    private Button btnCancelar; // Value injected by FXMLLoader
+
     /**
      * Función que se ejecuta cuando se carga la ventana
      *
@@ -35,6 +42,8 @@ public class BorrarAvionController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        btnGuardar.setDefaultButton(true);
+        btnCancelar.setCancelButton(true);
         // Aeropuertos
         ObservableList<Aeropuerto> aeropuertos = DaoAeropuerto.cargarListado();
         cbAeropuerto.setItems(aeropuertos);
