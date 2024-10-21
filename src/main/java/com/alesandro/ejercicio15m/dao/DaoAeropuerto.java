@@ -6,10 +6,9 @@ import com.alesandro.ejercicio15m.model.Direccion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Blob;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.sql.*;
 
 /**
  * Clase donde se ejecuta las consultas para la tabla Aeropuertos
@@ -112,6 +111,38 @@ public class DaoAeropuerto {
     }
 
     /**
+     * Función que convierte un archivo
+     * @param file
+     * @return
+     */
+    public static Blob convertFileToBlob(File file) {
+        DBConnect connection;
+        // Open a connection to the database
+        try {
+            connection = new DBConnect();
+            FileInputStream inputStream = new FileInputStream(file);
+
+            // Create Blob
+            Blob blob = connection.getConnection().createBlob();
+            // Write the file's bytes to the Blob
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+
+            try (var outputStream = blob.setBinaryStream(1)) {
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return blob;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+        /**
      * Metodo que CREA un nuevo un aeropuerto en la BD
      *
      * @param aeropuerto		Instancia del modelo aeropuerto con datos nuevos

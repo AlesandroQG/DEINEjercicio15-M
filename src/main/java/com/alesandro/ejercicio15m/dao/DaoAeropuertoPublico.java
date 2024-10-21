@@ -40,7 +40,7 @@ public class DaoAeropuertoPublico {
                 int capacidad = rs.getInt("capacidad");
                 int id_direccion = rs.getInt("id_direccion");
                 Direccion direccion = DaoDireccion.getDireccion(id_direccion);
-                Blob imagen = rs.getBinaryStream("imagen");
+                Blob imagen = rs.getBlob("imagen");
                 Aeropuerto airport = new Aeropuerto(id_aeropuerto,nombre,anio_inauguracion,capacidad,direccion,imagen);
                 BigDecimal financiacion = rs.getBigDecimal("financiacion");
                 int num_trabajadores = rs.getInt("num_trabajadores");
@@ -74,7 +74,7 @@ public class DaoAeropuertoPublico {
                 int capacidad = rs.getInt("capacidad");
                 int id_direccion = rs.getInt("id_direccion");
                 Direccion direccion = DaoDireccion.getDireccion(id_direccion);
-                Blob imagen = rs.getBinaryStream("imagen");
+                Blob imagen = rs.getBlob("imagen");
                 Aeropuerto aeropuerto = new Aeropuerto(id,nombre,anio_inauguracion,capacidad,direccion,imagen);
                 BigDecimal financiacion = rs.getBigDecimal("financiacion");
                 int num_trabajadores = rs.getInt("num_trabajadores");

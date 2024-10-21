@@ -170,14 +170,6 @@ public class DatosAeropuertoController implements Initializable {
         }
     }
 
-    // Converts Image to byte array (PNG format)
-    public static byte[] imageToByteArray(Image image) throws IOException {
-        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, "png", byteArrayOutputStream);  // Use "jpg" for JPEG
-        return byteArrayOutputStream.toByteArray();
-    }
-
     /**
      * Función que se ejecuta cuando se pulsa el botón "Seleccionar". Abre un FileChooser para seleccionar una imagen
      *
@@ -191,8 +183,8 @@ public class DatosAeropuertoController implements Initializable {
         File file = fileChooser.showOpenDialog(null);
         try {
             InputStream imagen = new FileInputStream(file);
-            byte[] imagenBytes =
-            this.imagenAeropuerto = new FileInputStream(file);
+            Blob blob = DaoAeropuerto.convertFileToBlob(file);
+            this.imagenAeropuerto = blob;
             imagenView.setImage(new Image(imagen));
         } catch (IOException e) {
             e.printStackTrace();
