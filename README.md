@@ -29,13 +29,13 @@ La estructura del proyecto es la siguiente:
             - `Avion.java`: Clase que define el objeto Avión
             - `Direccion.java`: Clase que define el objeto Dirección
             - `Usuario.java`: Clase que define el objeto Usuario
-      - `resources`:
-        - `fxml`:
-          - `ActivarDesactivarAvion.fxml`: Ventana para activar/desactivar aviones
-          - `Aeropuertos.fxml`: Ventana principal de la aplicación
-          - `AniadirAvion.fxml`: Ventana para añadir aviones
-          - `BorrarAvion.fxml`: Ventana para borrar aviones
-          - `DatosAeropuerto.fxml`: Ventana para añadir un nuevo aeropuerto o editar uno existente
-          - `Login.fxml`: Ventana para iniciar sesión en la aplicación
-        - `images`: Imágenes de la aplicación
-        - `style`: Estilos de la aplicación
+    - `resources`:
+      - `fxml`:
+        - `ActivarDesactivarAvion.fxml`: Ventana para activar/desactivar aviones
+        - `Aeropuertos.fxml`: Ventana principal de la aplicación
+        - `AniadirAvion.fxml`: Ventana para añadir aviones
+        - `BorrarAvion.fxml`: Ventana para borrar aviones
+        - `DatosAeropuerto.fxml`: Ventana para añadir un nuevo aeropuerto o editar uno existente
+        - `Login.fxml`: Ventana para iniciar sesión en la aplicación
+      - `imagenes`: Imágenes de la aplicación
+      - `style`: Estilos de la aplicación
