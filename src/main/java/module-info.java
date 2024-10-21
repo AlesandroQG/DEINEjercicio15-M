@@ -1,9 +1,11 @@
 module com.alesandro.ejercicio15m {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.graphics;
     requires java.sql;
     requires jdk.security.auth;
     requires org.checkerframework.checker.qual;
+    requires java.desktop;
 
 
     opens com.alesandro.ejercicio15m to javafx.fxml;

@@ -18,12 +18,13 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
@@ -32,7 +33,7 @@ import java.util.ResourceBundle;
 public class DatosAeropuertoController implements Initializable {
     private Object aeropuerto;
     private Aeropuerto aeropuerto_obj;
-    private InputStream imagenAeropuerto;
+    private Blob imagenAeropuerto;
 
     @FXML // fx:id="lblParam1"
     private Label lblParam1; // Value injected by FXMLLoader
@@ -156,11 +157,25 @@ public class DatosAeropuertoController implements Initializable {
             txtAnioInauguracion.setText(airport.getAnio_inauguracion() + "");
             txtCapacidad.setText(airport.getCapacidad() + "");
             if (airport.getImagen() != null) {
-                System.out.println("imagen exists");
+                System.out.println("Has image");
                 this.imagenAeropuerto = airport.getImagen();
-                imagenView.setImage(new Image(airport.getImagen()));
+                InputStream imagen = null;
+                try {
+                    imagen = airport.getImagen().getBinaryStream();
+                    imagenView.setImage(new Image(imagen));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
+    }
+
+    // Converts Image to byte array (PNG format)
+    public static byte[] imageToByteArray(Image image) throws IOException {
+        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage, "png", byteArrayOutputStream);  // Use "jpg" for JPEG
+        return byteArrayOutputStream.toByteArray();
     }
 
     /**
@@ -175,8 +190,10 @@ public class DatosAeropuertoController implements Initializable {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files","*.jpg","*.png"));
         File file = fileChooser.showOpenDialog(null);
         try {
+            InputStream imagen = new FileInputStream(file);
+            byte[] imagenBytes =
             this.imagenAeropuerto = new FileInputStream(file);
-            imagenView.setImage(new Image(this.imagenAeropuerto));
+            imagenView.setImage(new Image(imagen));
         } catch (IOException e) {
             e.printStackTrace();
         }

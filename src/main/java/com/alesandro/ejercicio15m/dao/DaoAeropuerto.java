@@ -6,7 +6,6 @@ import com.alesandro.ejercicio15m.model.Direccion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,7 +37,7 @@ public class DaoAeropuerto {
                 int capacidad = rs.getInt("capacidad");
                 int id_direccion = rs.getInt("id_direccion");
                 Direccion direccion = DaoDireccion.getDireccion(id_direccion);
-                InputStream imagen = rs.getBinaryStream("imagen");
+                Blob imagen = rs.getBlob("imagen");
                 aeropuerto = new Aeropuerto(id_aeropuerto,nombre,anio_inauguracion,capacidad,direccion,imagen);
             }
             rs.close();
@@ -69,7 +68,7 @@ public class DaoAeropuerto {
                 int capacidad = rs.getInt("capacidad");
                 int id_direccion = rs.getInt("id_direccion");
                 Direccion direccion = DaoDireccion.getDireccion(id_direccion);
-                InputStream imagen = rs.getBinaryStream("imagen");
+                Blob imagen = rs.getBlob("imagen");
                 Aeropuerto airport = new Aeropuerto(id,nombre,anio_inauguracion,capacidad,direccion,imagen);
                 airportList.add(airport);
             }
@@ -99,7 +98,7 @@ public class DaoAeropuerto {
             pstmt.setInt(2, aeropuertoNuevo.getAnio_inauguracion());
             pstmt.setInt(3, aeropuertoNuevo.getCapacidad());
             pstmt.setInt(4, aeropuertoNuevo.getDireccion().getId());
-            pstmt.setBinaryStream(5, aeropuertoNuevo.getImagen());
+            pstmt.setBlob(5, aeropuertoNuevo.getImagen());
             pstmt.setInt(6, aeropuerto.getId());
             int filasAfectadas = pstmt.executeUpdate();
             System.out.println("Actualizada aeropuerto");
@@ -123,14 +122,13 @@ public class DaoAeropuerto {
         PreparedStatement pstmt;
         try {
             connection = new DBConnect();
-            // INSERT INTO `DNI`.`dni` (`dni`) VALUES ('el nuevo');
             String consulta = "INSERT INTO aeropuertos (nombre,anio_inauguracion,capacidad,id_direccion,imagen) VALUES (?,?,?,?,?) ";
             pstmt = connection.getConnection().prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, aeropuerto.getNombre());
             pstmt.setInt(2, aeropuerto.getAnio_inauguracion());
             pstmt.setInt(3, aeropuerto.getCapacidad());
             pstmt.setInt(4, aeropuerto.getDireccion().getId());
-            pstmt.setBinaryStream(5, aeropuerto.getImagen());
+            pstmt.setBlob(5, aeropuerto.getImagen());
             int filasAfectadas = pstmt.executeUpdate();
             System.out.println("Nueva entrada en aeropuerto");
             if (filasAfectadas > 0) {

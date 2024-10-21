@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,7 +40,7 @@ public class DaoAeropuertoPublico {
                 int capacidad = rs.getInt("capacidad");
                 int id_direccion = rs.getInt("id_direccion");
                 Direccion direccion = DaoDireccion.getDireccion(id_direccion);
-                InputStream imagen = rs.getBinaryStream("imagen");
+                Blob imagen = rs.getBinaryStream("imagen");
                 Aeropuerto airport = new Aeropuerto(id_aeropuerto,nombre,anio_inauguracion,capacidad,direccion,imagen);
                 BigDecimal financiacion = rs.getBigDecimal("financiacion");
                 int num_trabajadores = rs.getInt("num_trabajadores");
@@ -73,7 +74,7 @@ public class DaoAeropuertoPublico {
                 int capacidad = rs.getInt("capacidad");
                 int id_direccion = rs.getInt("id_direccion");
                 Direccion direccion = DaoDireccion.getDireccion(id_direccion);
-                InputStream imagen = rs.getBinaryStream("imagen");
+                Blob imagen = rs.getBinaryStream("imagen");
                 Aeropuerto aeropuerto = new Aeropuerto(id,nombre,anio_inauguracion,capacidad,direccion,imagen);
                 BigDecimal financiacion = rs.getBigDecimal("financiacion");
                 int num_trabajadores = rs.getInt("num_trabajadores");
