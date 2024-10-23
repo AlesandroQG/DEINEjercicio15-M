@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.*;
 
 /**
@@ -111,19 +112,21 @@ public class DaoAeropuerto {
     }
 
     /**
-     * Función que convierte un archivo
-     * @param file
-     * @return
+     * Función que convierto un objeto File a Blob
+     *
+     * @param file fichero imagen
+     * @return blob
+     * @throws SQLException
+     * @throws IOException
      */
-    public static Blob convertFileToBlob(File file) {
-        DBConnect connection;
+    public static Blob convertFileToBlob(File file) throws SQLException, IOException {
+        DBConnect connection = new DBConnect();
         // Open a connection to the database
-        try {
-            connection = new DBConnect();
-            FileInputStream inputStream = new FileInputStream(file);
+        try (Connection conn = connection.getConnection();
+             FileInputStream inputStream = new FileInputStream(file)) {
 
             // Create Blob
-            Blob blob = connection.getConnection().createBlob();
+            Blob blob = conn.createBlob();
             // Write the file's bytes to the Blob
             byte[] buffer = new byte[1024];
             int bytesRead;
@@ -132,14 +135,9 @@ public class DaoAeropuerto {
                 while ((bytesRead = inputStream.read(buffer)) != -1) {
                     outputStream.write(buffer, 0, bytesRead);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
             return blob;
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return null;
     }
 
         /**
