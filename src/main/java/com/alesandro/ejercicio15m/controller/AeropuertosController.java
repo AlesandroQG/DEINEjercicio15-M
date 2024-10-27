@@ -93,6 +93,7 @@ public class AeropuertosController implements Initializable {
                         stage.getIcons().add(new Image(getClass().getResourceAsStream("/imagenes/avion.png")));
                         stage.setTitle("AVIONES - EDITAR AEROPUERTO");
                         stage.initOwner(ventana);
+                        stage.setResizable(false);
                         stage.initModality(Modality.APPLICATION_MODAL);
                         stage.showAndWait();
                         if (rbPublicos.isSelected()) {
@@ -156,6 +157,7 @@ public class AeropuertosController implements Initializable {
             stage.getIcons().add(new Image(getClass().getResourceAsStream("/imagenes/avion.png")));
             stage.setTitle("AVIONES - AÑADIR AEROPUERTO");
             stage.initOwner(ventana);
+            stage.setResizable(false);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
             if (rbPublicos.isSelected()) {
@@ -191,6 +193,7 @@ public class AeropuertosController implements Initializable {
                 stage.getIcons().add(new Image(getClass().getResourceAsStream("/imagenes/avion.png")));
                 stage.setTitle("AVIONES - EDITAR AEROPUERTO");
                 stage.initOwner(ventana);
+                stage.setResizable(false);
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.showAndWait();
                 if (rbPublicos.isSelected()) {
